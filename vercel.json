@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/users.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/sitters.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/petHumans.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/bookings.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/users(.*)",
+      "dest": "/api/users.ts"
+    },
+    {
+      "src": "/api/sitters(.*)",
+      "dest": "/api/sitters.ts"
+    },
+    {
+      "src": "/api/petHumans(.*)",
+      "dest": "/api/bookings.ts"
+    },
+    {
+      "src": "api/bookings.ts",
+      "use": "@vercel/node"
+    }
+  ]
+}
