@@ -1,0 +1,25 @@
+{
+  "name": "petcare-booking-system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Francieli Sauthier",
+  "license": "ISC",
+  "description": "A petcare booking system with microservices",
+  "dependencies": {
+    "@vercel/node": "^3.2.23",
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0",
+    "pg": "^8.13.0",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
