@@ -15,7 +15,7 @@ export class Booking {
   @ManyToOne(() => PetHuman)
   pet_human!: PetHuman;
   
-  @Column()
+  @Column({ type: 'enum', enum: ServiceType })
   service_type!: ServiceType;
 
   @Column()
@@ -30,7 +30,7 @@ export class Booking {
   @Column()
   total_price!: number;
 
-  @Column()
+  @Column({ type: 'enum', enum: BookingStatus })
   status!: BookingStatus;
 
   @Column()

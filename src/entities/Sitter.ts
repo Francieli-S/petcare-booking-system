@@ -13,7 +13,7 @@ export class Sitter {
   @Column()
   bio!: string;
 
-  @Column()
+  @Column({ type: 'enum', enum: ServiceType })
   services_offered!: ServiceType;
 
   @Column()
