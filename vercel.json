@@ -29,11 +29,11 @@
     },
     {
       "src": "/api/petHumans(.*)",
-      "dest": "/api/bookings.ts"
+      "dest": "/api/petHumans.ts"
     },
     {
-      "src": "api/bookings.ts",
-      "use": "@vercel/node"
+      "src": "api/bookings(.*)",
+      "dest": "/api/bookings.ts"
     }
   ]
 }
