@@ -1,5 +1,5 @@
 import express from 'express';
-import { AppDataSource } from '../../database/ormconfig';
+import { AppDataSource } from '../../database/ormconfig.js';
 import userRouter from './routes.js';
 
 const app = express();
