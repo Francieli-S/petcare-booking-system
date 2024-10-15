@@ -3,35 +3,82 @@ import { User } from '../../entities/User.js';
 import { AppDataSource } from '../../database/ormconfig.js';
 // import { v4 as uuid4 } from 'uuid';
 
+// TODO: Implement a global error-handling
+// TODO: Separate in another file, db functions from the req/res handlers
+
 const userRepo = AppDataSource.getRepository(User);
 
 const get = async (req: Request, res: Response) => {
   try {
     const users = await userRepo.find();
-    res.status(200).send(users);
+    if (!users.length) {
+      return res
+        .status(404)
+        .json({ status: 'error', message: 'No users found' });
+    }
+
+    const usersWithoutPassword = users.map((user) => {
+      const { password: _, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    });
+
+    res.status(200).json({
+      status: 'sucess',
+      data: usersWithoutPassword,
+      message: 'Users retrieved successfully',
+    });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while fetching users: ',
+      error,
+    });
   }
 };
 
 const getById = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id);
+  const userId = parseInt(req.params.id, 10); // ensure the string is interpreted as a decimal number
+  if (isNaN(userId)) {
+    return res
+      .status(400)
+      .json({ status: 'error', message: 'Invalid user ID' });
+  }
   try {
     const user = await userRepo.findOneBy({ user_id: userId });
     if (!user) {
-      return res.status(404).send({ message: 'User not found' });
+      return res
+        .status(404)
+        .json({ status: 'error', message: 'User not found' });
     }
-    res.status(200).send(user);
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User retrieved successfully',
+      data: userWithoutPassword,
+    });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while fetching user',
+      error,
+    });
   }
 };
 
 const create = async (req: Request, res: Response) => {
   const { first_name, last_name, email, password, phone, role, city } =
     req.body;
-  // const uuid = uuid4();
+  // TODO: password and email validation(regex) and encryption(bcryptjs)
+
   try {
+    const user = await userRepo.findOneBy({ email });
+    if (user) {
+      return res
+        .status(404)
+        .json({ status: 'error', message: 'Email already registered' });
+    }
     const newUser = userRepo.create({
       first_name,
       last_name,
@@ -41,47 +88,97 @@ const create = async (req: Request, res: Response) => {
       role,
       city,
     });
+
+    const { password: _, ...userWithoutPassword } = newUser;
+
     await userRepo.save(newUser);
-    res.status(201).send(newUser);
+    res.status(201).json({
+      status: 'success',
+      message: 'User created successfully',
+      data: userWithoutPassword,
+    });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while creating user',
+      error,
+    });
   }
 };
 
 const update = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id);
-  const { first_name, last_name, email, password, phone, role, city } =
-    req.body;
+  const userId = parseInt(req.params.id, 10);
+
+  if (isNaN(userId)) {
+    return res
+      .status(400)
+      .json({ status: 'error', message: 'Invalid user ID' });
+  }
+
+  // TODO: email and password validation(regex) and encryption(bcryptjs)
+  // TODO: update password in a specific handler
+
+  const { first_name, last_name, email, phone, role, city } = req.body;
   try {
     const user = await userRepo.findOneBy({ user_id: userId });
     if (!user) {
-      return res.status(404).send({ message: 'User not found' });
+      return res
+        .status(404)
+        .json({ status: 'error', message: 'User not found' });
     }
+
     const updateUser = userRepo.merge(user, {
       first_name,
       last_name,
       email,
-      password,
       phone,
       role,
       city,
     });
-    res.status(200).send(updateUser);
+
+    const { password: _, ...userWithoutPassword } = updateUser;
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User updated successfully',
+      data: userWithoutPassword,
+    });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while updating user',
+      error,
+    });
   }
 };
 
 const remove = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id);
+  const userId = parseInt(req.params.id, 10);
+
+  if (isNaN(userId)) {
+    return res
+      .status(400)
+      .json({ status: 'error', message: 'Invalid user ID' });
+  }
+
   try {
     const userToRemove = await userRepo.delete(userId);
     if (userToRemove.affected === 0) {
-      return res.status(404).send({ message: 'User not found' });
+      return res
+        .status(404)
+        .json({ status: 'error', message: 'User not found' });
     }
-    res.status(204).send();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User deleted successfully',
+    });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while removing user',
+      error,
+    });
   }
 };
 
