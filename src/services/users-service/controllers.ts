@@ -31,7 +31,7 @@ const get = async (req: Request, res: Response) => {
     });
   } catch (error) {
     let message = 'An error occurred while fetching users: ';
-    if (findOptions !== null) {
+    if (Object.keys(findOptions).length !== 0) {
       message = 'An error occurred while filtering user: ';
     }
     res.status(500).json({
