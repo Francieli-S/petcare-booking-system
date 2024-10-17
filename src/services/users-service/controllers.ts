@@ -1,28 +1,31 @@
 import { Request, Response } from 'express';
 import { User } from '../../entities/User.js';
 import { AppDataSource } from '../../database/ormconfig.js';
-import { queryParser } from '../../utils/index.js';
-// import { v4 as uuid4 } from 'uuid';
+import { queryParser, parseUserId, removeSensitiveData } from '../../utils/index.js';
 
-// TODO: Implement a global error-handling
-// TODO: Separate in another file, db functions from the req/res handlers
+// TODO: Implement a global error-handlin
+// TODO: Separate bisiness logic (crud handling in another file)
 
 const userRepo = AppDataSource.getRepository(User);
 
 const get = async (req: Request, res: Response) => {
   const findOptions = queryParser(req.query, ['role']);
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+
   try {
-    const users = await userRepo.find(findOptions);
+    const users = await userRepo.find({
+      ...findOptions,
+      skip: (page - 1) * limit,
+      take: limit,
+    });
     if (!users.length) {
       return res
         .status(404)
         .json({ status: 'error', message: 'No users found' });
     }
 
-    const usersWithoutPassword = users.map((user) => {
-      const { password: _, ...userWithoutPassword } = user;
-      return userWithoutPassword;
-    });
+    const usersWithoutPassword = users.map(removeSensitiveData)
 
     res.status(200).json({
       status: 'sucess',
@@ -43,8 +46,8 @@ const get = async (req: Request, res: Response) => {
 };
 
 const getById = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id, 10); // ensure the string is interpreted as a decimal number
-  if (isNaN(userId)) {
+  const userId = parseUserId(req.params.id) // if I pass 9xx8 f.e. it return user id 9
+  if (!userId) {
     return res
       .status(400)
       .json({ status: 'error', message: 'Invalid user ID' });
@@ -57,12 +60,10 @@ const getById = async (req: Request, res: Response) => {
         .json({ status: 'error', message: 'User not found' });
     }
 
-    const { password: _, ...userWithoutPassword } = user;
-
     res.status(200).json({
       status: 'success',
       message: 'User retrieved successfully',
-      data: userWithoutPassword,
+      data: removeSensitiveData(user),
     });
   } catch (error) {
     res.status(500).json({
@@ -95,13 +96,11 @@ const create = async (req: Request, res: Response) => {
       city,
     });
 
-    const { password: _, ...userWithoutPassword } = newUser;
-
     await userRepo.save(newUser);
     res.status(201).json({
       status: 'success',
       message: 'User created successfully',
-      data: userWithoutPassword,
+      data: removeSensitiveData(newUser),
     });
   } catch (error) {
     res.status(500).json({
@@ -113,9 +112,9 @@ const create = async (req: Request, res: Response) => {
 };
 
 const update = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id, 10);
+  const userId = parseUserId(req.params.id)
 
-  if (isNaN(userId)) {
+  if (!userId) {
     return res
       .status(400)
       .json({ status: 'error', message: 'Invalid user ID' });
@@ -140,12 +139,10 @@ const update = async (req: Request, res: Response) => {
       city,
     });
 
-    const { password: _, ...userWithoutPassword } = updateUser;
-
     res.status(200).json({
       status: 'success',
       message: 'User updated successfully',
-      data: userWithoutPassword,
+      data: removeSensitiveData(updateUser),
     });
   } catch (error) {
     res.status(500).json({
@@ -157,9 +154,9 @@ const update = async (req: Request, res: Response) => {
 };
 
 const remove = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.id, 10);
+  const userId = parseUserId(req.params.id)
 
-  if (isNaN(userId)) {
+  if (!userId) {
     return res
       .status(400)
       .json({ status: 'error', message: 'Invalid user ID' });
