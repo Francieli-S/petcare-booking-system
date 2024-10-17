@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../../entities/User.js';
 import { AppDataSource } from '../../database/ormconfig.js';
+import { queryParser } from '../../utils/index.js';
 // import { v4 as uuid4 } from 'uuid';
 
 // TODO: Implement a global error-handling
@@ -9,8 +10,9 @@ import { AppDataSource } from '../../database/ormconfig.js';
 const userRepo = AppDataSource.getRepository(User);
 
 const get = async (req: Request, res: Response) => {
+  const findOptions = queryParser(req.query, ['role']);
   try {
-    const users = await userRepo.find();
+    const users = await userRepo.find(findOptions);
     if (!users.length) {
       return res
         .status(404)
@@ -28,9 +30,13 @@ const get = async (req: Request, res: Response) => {
       message: 'Users retrieved successfully',
     });
   } catch (error) {
+    let message = 'An error occurred while fetching users: ';
+    if (findOptions !== null) {
+      message = 'An error occurred while filtering user: ';
+    }
     res.status(500).json({
       status: 'error',
-      message: 'An error occurred while fetching users: ',
+      message: message,
       error,
     });
   }
