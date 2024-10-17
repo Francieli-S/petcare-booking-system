@@ -13,7 +13,7 @@ export class PetHuman {
   @Column()
   number_of_pets!: number;
 
-  @Column()
+  @Column({ type: 'enum', enum: PetType })
   pets_type!: PetType;
 
   @Column()

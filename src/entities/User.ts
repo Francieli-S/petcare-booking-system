@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { UserRole } from './types';
+import { UserRole } from './types.js';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   user_id!: number;
 
-  @Column({ defaut: () => 'gen_random_uuid()' })
-  uuid!: string;
+  // @Column()
+  // uuid!: string;
 
   @Column()
   first_name!: string;

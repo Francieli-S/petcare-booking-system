@@ -1,4 +1,4 @@
-import { app, connectToDB } from '../src/services/petHuman-service';
+import { app, connectToDB } from '../src/services/petHuman-service/index.js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
