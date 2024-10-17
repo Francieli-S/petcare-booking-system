@@ -116,9 +116,9 @@ const update = async (req: Request, res: Response) => {
   }
 
   // TODO: email and password validation(regex) and encryption(bcryptjs)
-  // TODO: update password in a specific handler
+  // TODO: update password, email and role in specific handler
 
-  const { first_name, last_name, email, phone, role, city } = req.body;
+  const { first_name, last_name, phone, city } = req.body;
   try {
     const user = await userRepo.findOneBy({ user_id: userId });
     if (!user) {
@@ -130,9 +130,7 @@ const update = async (req: Request, res: Response) => {
     const updateUser = userRepo.merge(user, {
       first_name,
       last_name,
-      email,
       phone,
-      role,
       city,
     });
 
