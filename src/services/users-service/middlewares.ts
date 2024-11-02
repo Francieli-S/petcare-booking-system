@@ -74,11 +74,12 @@ const validator = (isCreate = false) => {
     });
 
     if (error) {
-      return res.status(400).json({
+      res.status(400).json({
         status: 'error',
         message: 'An error occurred while validating req.body',
         error,
       });
+      return
     }
 
     next();
