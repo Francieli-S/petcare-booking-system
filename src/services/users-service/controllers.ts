@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { User } from '../../entities/User.js';
 import { AppDataSource } from '../../database/ormconfig.js';
-import { queryParser, parseUserId, removeSensitiveData } from '../../utils/index.js';
+import {
+  queryParser,
+  parseUserId,
+  removeSensitiveData,
+} from '../../utils/index.js';
 
 // TODO: Implement a global error-handlin
 // TODO: Separate bisiness logic (crud handling in another file)
@@ -20,12 +24,11 @@ const get = async (req: Request, res: Response) => {
       take: limit,
     });
     if (!users.length) {
-      return res
-        .status(404)
-        .json({ status: 'error', message: 'No users found' });
+      res.status(404).json({ status: 'error', message: 'No users found' });
+      return;
     }
 
-    const usersWithoutPassword = users.map(removeSensitiveData)
+    const usersWithoutPassword = users.map(removeSensitiveData);
 
     res.status(200).json({
       status: 'sucess',
@@ -46,18 +49,16 @@ const get = async (req: Request, res: Response) => {
 };
 
 const getById = async (req: Request, res: Response) => {
-  const userId = parseUserId(req.params.id) // if I pass 9xx8 f.e. it return user id 9
+  const userId = parseUserId(req.params.id); // if I pass 9xx8 f.e. it return user id 9
   if (!userId) {
-    return res
-      .status(400)
-      .json({ status: 'error', message: 'Invalid user ID' });
+    res.status(400).json({ status: 'error', message: 'Invalid user ID' });
+    return;
   }
   try {
     const user = await userRepo.findOneBy({ user_id: userId });
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: 'error', message: 'User not found' });
+      res.status(404).json({ status: 'error', message: 'User not found' });
+      return;
     }
 
     res.status(200).json({
@@ -82,9 +83,10 @@ const create = async (req: Request, res: Response) => {
   try {
     const user = await userRepo.findOneBy({ email });
     if (user) {
-      return res
+      res
         .status(404)
         .json({ status: 'error', message: 'Email already registered' });
+      return;
     }
     const newUser = userRepo.create({
       first_name,
@@ -112,12 +114,11 @@ const create = async (req: Request, res: Response) => {
 };
 
 const update = async (req: Request, res: Response) => {
-  const userId = parseUserId(req.params.id)
+  const userId = parseUserId(req.params.id);
 
   if (!userId) {
-    return res
-      .status(400)
-      .json({ status: 'error', message: 'Invalid user ID' });
+    res.status(400).json({ status: 'error', message: 'Invalid user ID' });
+    return;
   }
 
   // TODO: email and password validation(regex) and encryption(bcryptjs)
@@ -127,9 +128,8 @@ const update = async (req: Request, res: Response) => {
   try {
     const user = await userRepo.findOneBy({ user_id: userId });
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: 'error', message: 'User not found' });
+      res.status(404).json({ status: 'error', message: 'User not found' });
+      return;
     }
 
     const updateUser = userRepo.merge(user, {
@@ -154,20 +154,18 @@ const update = async (req: Request, res: Response) => {
 };
 
 const remove = async (req: Request, res: Response) => {
-  const userId = parseUserId(req.params.id)
+  const userId = parseUserId(req.params.id);
 
   if (!userId) {
-    return res
-      .status(400)
-      .json({ status: 'error', message: 'Invalid user ID' });
+    res.status(400).json({ status: 'error', message: 'Invalid user ID' });
+    return;
   }
 
   try {
     const userToRemove = await userRepo.delete(userId);
     if (userToRemove.affected === 0) {
-      return res
-        .status(404)
-        .json({ status: 'error', message: 'User not found' });
+      res.status(404).json({ status: 'error', message: 'User not found' });
+      return;
     }
 
     res.status(200).json({
