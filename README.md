@@ -63,11 +63,11 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `PUT /bookings/{id}`: Update booking status (accept, cancel, complete).
   - `GET /bookings/{id}`: Retrieve details of a specific booking. -->
 
-<!-- ### Installation
+### Installation
 
 #### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/petcare-booking-system.git
+git clone https://github.com/Francieli-S/petcare-booking-system.git
 cd petcare-booking-system
 ```
 
@@ -76,7 +76,7 @@ cd petcare-booking-system
 npm install
 ```
 
-#### 3. Set Up Environment Variables
+<!-- #### 3. Set Up Environment Variables
 Create a `.env` file in the root directory and configure the following environment variables:
 
 ```env
@@ -88,12 +88,13 @@ JWT_SECRET=your_jwt_secret_key
 #### 4. Run Database Migrations
 ```bash
 npm run typeorm migration:run
-```
+``` -->
 
-#### 5. Start the Development Server
+#### 3. Start the Development Server
 ```bash
-npm run dev
+npm i -g vercel
+vercel dev
 ```
 
-The application should now be running at `http://localhost:3000`. -->
+The application should now be running at `http://localhost:3000`.
 
