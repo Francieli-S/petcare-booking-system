@@ -1,5 +1,5 @@
 import express from 'express';
-import { AppDataSource } from '../../database/ormconfig';
+import { AppDataSource } from '../../database/ormconfig.js';
 import petHumanRouter from './routes.js';
 
 const app = express();
