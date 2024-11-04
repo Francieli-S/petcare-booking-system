@@ -76,6 +76,26 @@ cd petcare-booking-system
 npm install
 ```
 
+#### 3. Compile TS files to JS
+```bash
+npm run build
+```
+
+#### 4. Install PostgreSQL and create the database
+```bash
+replace username and password in .env file for those informed in the installation process
+open the command prompt and run the comands: 
+psql -U postgres (informe the password)
+CREATE DATABASE petcare;
+CREATE USER <username> WITH PASSWORD <'password'>;
+GRANT ALL PRIVILEGES ON DATABASE petcare TO <username>;
+```
+
+#### 4. Start the Development Server
+```bash
+npm i -g vercel
+vercel dev
+```
 <!-- #### 3. Set Up Environment Variables
 Create a `.env` file in the root directory and configure the following environment variables:
 
@@ -90,11 +110,6 @@ JWT_SECRET=your_jwt_secret_key
 npm run typeorm migration:run
 ``` -->
 
-#### 3. Start the Development Server
-```bash
-npm i -g vercel
-vercel dev
-```
 
 The application should now be running at `http://localhost:3000`.
 
