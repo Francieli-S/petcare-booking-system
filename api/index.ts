@@ -1,4 +1,4 @@
-import { app, connectToDB } from '../src/services/sitters-service/index.js';
+import { app, connectToDB } from '../src/index.js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {

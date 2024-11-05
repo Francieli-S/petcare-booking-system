@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { User } from '../../entities/User.js';
-import { AppDataSource } from '../../database/ormconfig.js';
+import { User } from '../entities/User.js';
+import { AppDataSource } from '../database/ormconfig.js';
 import {
   queryParser,
   parseUserId,
   removeSensitiveData,
-} from '../../utils/index.js';
+} from '../utils/index.js';
 
 // TODO: Implement a global error-handlin
 // TODO: Separate bisiness logic (crud handling in another file)
