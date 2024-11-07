@@ -3,9 +3,11 @@ import userRoutes from './user.routes.js'
 import sitterRoutes from './sitter.routes.js'
 import petHumanRoutes from './petHuman.routes.js'
 import bookingRouter from './booking.routes.js'
+import authRoutes from './auth.routes.js'
 
 const router = Router()
 
+router.use('/auth', authRoutes)
 router.use('/users', userRoutes)
 router.use('/sitters', sitterRoutes)
 router.use('/pethumans', petHumanRoutes)
