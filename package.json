@@ -4,14 +4,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "node dist/src/index.js"
   },
   "keywords": [],
   "author": "Francieli Sauthier",
   "license": "ISC",
   "description": "A petcare booking system with microservices",
   "dependencies": {
-    "@vercel/node": "^3.2.23",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "joi": "^17.13.3",
