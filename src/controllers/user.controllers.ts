@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../entities/User.js';
-import { AppDataSource } from '../database/ormconfig.js';
+import { AppDataSource } from '../config/database.js';
 import {
   queryParser,
   parseUserId,

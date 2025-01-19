@@ -1,10 +1,7 @@
 import express from 'express';
-import { AppDataSource } from '../src/database/ormconfig.js';
+import { AppDataSource } from './config/database.js';
 import routers from '../src/routes/index.js';
-import dotenv from 'dotenv';
-
-dotenv.config();
-const PORT = process.env.PORT || 3001;
+import { configs } from './config/env.js';
 
 const app = express();
 app.use(express.json());
@@ -22,8 +19,8 @@ const connectToDB = async () => {
 const startServer = async () => {
   try {
     await connectToDB();
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+    app.listen(configs.PORT, () => {
+      console.log(`Server running on http://localhost:${configs.PORT}`);
     });
   } catch (error) {
     console.log('Failed to start the server', error);
