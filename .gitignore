@@ -1,7 +1,9 @@
-/node_modules
-/dist
+dist
+node_modules
 
-# .env
+.env
+.env.prod
+.env.test
 
 api-requirements.md
 notes_mentoring.md
