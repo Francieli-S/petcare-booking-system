@@ -1,10 +1,11 @@
 {
   "name": "petcare-booking-system",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "start": "NODE_ENV=production node dist/src/index.js",
     "dev": "node dist/src/index.js"
   },
   "keywords": [],
