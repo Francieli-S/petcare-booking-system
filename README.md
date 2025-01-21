@@ -82,7 +82,11 @@ PORT=5001
 
 ### 6. Build and Run the Application
 
-Use Docker Compose to build and start the services:
+1. Ensure the initialization script is executable:
+   ```bash
+   chmod +x init-database.sh
+
+2. Use Docker Compose to build and start the services:
 
 ```bash
 docker-compose up --build
