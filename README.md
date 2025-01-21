@@ -1,115 +1,173 @@
-# Petcare Booking System (Work in progess...)
+# Petcare Booking System (Work in Progress)
 
-### Overview
+## Installation
 
-The **Petcare Booking System** is a full-stack application designed to connect pet human with sitters for services such as pet sitting, walking, grooming, and boarding. The platform enables pet human to browse sitters, schedule bookings for their pets, and leave reviews after services are completed. Sitters can offer their services, manage their availability, and accept or decline booking requests.
+### 1. Prerequisites
 
-### Features
-- **User Management**: Users can register as either pet human (not using owner here!) or pet sitters. A user can manage their profile, update information, and add pets to their profile.
-- **Pet Management**: Pet human can add multiple pets to their profile and specify important details about each pet (type, age, behavior, etc.).
-- **Booking System**: Owners can book sitters based on their availability for services like pet sitting, walking, or grooming. Bookings can be accepted or rejected by sitters.
-- **Ratings and Reviews**: After a service is completed, pet human can leave reviews and ratings for sitters to help future human choose their preferred sitter.
-- **Availability Management**: Sitters can define their availability and services, such as hourly rates and the types of pets they can care for.
+Before you begin, make sure you have the following installed and configured on your machine:
 
-### Technologies
+- **Docker Desktop**: [Download here](https://www.docker.com/products/docker-desktop)  
+  Ensure Docker Desktop is running before proceeding.
+- **Git**: [Download here](https://git-scm.com/)  
+- **Node.js (Optional)**: [Download here](https://nodejs.org/)  
+  This is required only if you plan to run the project outside of Docker.
 
-- **Backend**:
-  - **Node.js** with **TypeScript**: The backend server is built using Node.js with TypeScript for type safety.
-  - **PostgreSQL**: A relational database that stores user, pet, sitter, and booking information.
-  - **TypeORM**: Used for managing database migrations and mapping database entities to TypeScript classes.
-  - **Microservices Architecture**: The system is designed using a microservices approach to separate concerns, such as user management, booking, and sitter services.
+### 2. Clone the Repository
 
-- **Frontend**:
-  - **React**: A modern frontend framework for building responsive user interfaces.
-  - **TailwindCSS**: For styling components.
+Clone the repository to your local machine and navigate to the project directory:
 
-- **Deployment**:
-  - **Serverless**: The project uses serverless architecture, deploying services to **Vercel** for scalable and cost-effective hosting.
-  - **API Gateway**: Communication between microservices is handled using API Gateway, allowing the frontend to interact with backend services.
-
-### Table Structure
-
-The project uses a relational database to store data. The primary tables used are:
-
-1. **Users**: Stores information about users (both pet human and sitters).
-2. **Sitters**: Contains data specific to users who are registered as sitters.
-3. **PetHuman**: Stores details about the pet humans.
-4. **Bookings**: Manages booking details between pet human and sitters.
-
-### API Endpoints
-
-The application exposes various RESTful API endpoints to interact with the system. Here are some key ones:
-
-- **User Endpoints**:
-  <!-- - `POST /users/register`: Register a new user (owner or sitter).
-  - `POST /users/login`: Authenticate a user and issue a token.
-  - `GET /users/profile`: Retrieve the profile of the logged-in user.
-  - `PUT /users/profile`: Update user details. -->
-
-- **PetHuman Endpoints**:
-  <!-- - `POST /pets`: Add a pet to the owner's profile.
-  - `GET /pets`: Get a list of pets for the logged-in owner.
-  - `PUT /pets/{id}`: Update pet information.
-  - `DELETE /pets/{id}`: Remove a pet from the owner's profile. -->
-
-
-- **Sitter Endpoints**:
-  <!-- - `GET /sitters`: List all sitters based on filters (location, services).
-  - `GET /sitters/{id}`: Get detailed information about a specific sitter. -->
-
-- **Booking Endpoints**:
-  <!-- - `POST /bookings`: Create a new booking request.
-  - `GET /bookings`: List all bookings for a user (owner or sitter).
-  - `PUT /bookings/{id}`: Update booking status (accept, cancel, complete).
-  - `GET /bookings/{id}`: Retrieve details of a specific booking. -->
-
-### Installation
-
-#### 1. Clone the Repository
 ```bash
 git clone https://github.com/Francieli-S/petcare-booking-system.git
 cd petcare-booking-system
 ```
 
-#### 2. Install Dependencies
+### 3. Install Dependencies
+
+Install the required Node.js dependencies:
+
 ```bash
 npm install
 ```
 
-#### 3. Compile TS files to JS
+### 4. Compile TypeScript to JavaScript
+
+Compile the TypeScript files to JavaScript:
+
 ```bash
 npm run build
 ```
 
-#### 4. Install PostgreSQL and create the database
+### 5. Set Up Environment Variables
+
+#### For Production
+
+Copy the example environment file and update it with the required values:
+
 ```bash
-replace username and password in .env file for those informed in the installation process
-open the command prompt and run the comands: 
-psql -U postgres (informe the password)
-CREATE DATABASE petcare;
-CREATE USER <username> WITH PASSWORD <'password'>;
-GRANT ALL PRIVILEGES ON DATABASE petcare TO <username>;
+cp .env.example .env.prod
 ```
 
-#### 4. Start the Development Server
-```bash
-npm i -g vercel
-vercel dev
-```
-<!-- #### 3. Set Up Environment Variables
-Create a `.env` file in the root directory and configure the following environment variables:
+Edit `.env.prod` to configure your environment (replace `<your_password>` with your chosen password):
 
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/petcare_db
-PORT=3000
-JWT_SECRET=your_jwt_secret_key
+DB_HOST=db
+DB_PORT=5432
+DB_USERNAME=petcare_admin
+DB_PASSWORD=<your_password>
+DB_NAME=petcare_prod
+
+PORT=5002
+NODE_ENV=production
 ```
 
-#### 4. Run Database Migrations
+#### For Testing
+
+Create a `.env.test` file for testing:
+
 ```bash
-npm run typeorm migration:run
-``` -->
+cp .env.example .env.test
+```
 
+Edit `.env.test` to configure your test environment (replace `<your_password>` with your chosen password):
 
-The application should now be running at `http://localhost:3000`.
+```env
+DB_HOST=localhost
+DB_PORT=5433
+DB_USERNAME=petcare_admin
+DB_PASSWORD=<your_password>
+DB_NAME=petcare_test
 
+PORT=5001
+```
+
+### 6. Build and Run the Application
+
+Use Docker Compose to build and start the services:
+
+```bash
+docker-compose up --build
+```
+
+### 7. Access the Application
+
+The application will be available at `http://localhost:5002` (or the port specified in `.env.prod`).
+
+## Testing
+
+### Backend Tests
+Run backend tests using Jest:
+```bash
+npm run test:backend 
+```
+
+### Frontend Tests
+Run frontend tests using React Testing Library:
+```bash
+npm run test:frontend
+```
+
+## Overview
+
+The **Petcare Booking System** is a full-stack application designed to connect pet humans with sitters for services such as pet sitting, walking, grooming, and boarding. The platform enables pet humans to browse sitters, schedule bookings for their pets, and leave reviews after services are completed. Sitters can offer their services, manage their availability, and accept or decline booking requests.
+
+### Features
+- **User Management**: Users can register as either pet humans or pet sitters. A user can manage their profile, update information, and add pets to their profile.
+- **Pet Management**: Pet humans can add multiple pets to their profile and specify important details about each pet (type, age, behavior, etc.).
+- **Booking System**: Pet humans can book sitters based on their availability for services like pet sitting, walking, or grooming. Bookings can be accepted or rejected by sitters.
+- **Ratings and Reviews**: After a service is completed, pet humans can leave reviews and ratings for sitters to help future users choose their preferred sitter.
+- **Availability Management**: Sitters can define their availability and services, such as hourly rates and the types of pets they can care for.
+
+## Technologies
+
+- **Backend**:
+  - **Node.js** with **TypeScript**: The backend server is built using Node.js with TypeScript for type safety.
+  - **PostgreSQL**: A relational database that stores user, pet, sitter, and booking information.
+  - **TypeORM**: Used for managing database migrations and mapping database entities to TypeScript classes.
+  - **Jest**: For testing the backend functionality.
+
+- **Frontend**:
+  - **Next.js - React**: A modern frontend framework for building responsive user interfaces.
+  - **Tailwind - CSS**: For styling components.
+  - **React Testing Library**: For testing the frontend functionality.
+
+- **Deployment**:
+  - **Docker**: Containerized application for consistent development and production environments.
+  - **AWS**: Infrastructure for scalable and reliable hosting of the application.
+
+## Table Structure
+
+The project uses a relational database to store data. The primary tables used are:
+
+1. **Users**: Stores information about users (both pet humans and sitters).
+2. **Sitters**: Contains data specific to users who are registered as sitters.
+3. **Pet Humans**: Stores details about the pet humans.
+4. **Bookings**: Manages booking details between pet humans and sitters.
+
+## API Endpoints
+
+The application exposes various RESTful API endpoints to interact with the system. Here are some key ones:
+
+- **User Endpoints**:
+  - `POST /users/register`: Register a new user (pet human or sitter).
+  - `POST /users/login`: Authenticate a user and issue a token.
+  - `GET /users/profile`: Retrieve the profile of the logged-in user.
+  - `PUT /users/profile`: Update user details.
+
+- **Pet Human Endpoints**:
+  - `POST /pets`: Add a pet to the owner's profile.
+  - `GET /pets`: Get a list of pets for the logged-in owner.
+  - `PUT /pets/{id}`: Update pet information.
+  - `DELETE /pets/{id}`: Remove a pet from the owner's profile.
+
+- **Sitter Endpoints**:
+  - `GET /sitters`: List all sitters based on filters (location, services).
+  - `GET /sitters/{id}`: Get detailed information about a specific sitter.
+
+- **Booking Endpoints**:
+  - `POST /bookings`: Create a new booking request.
+  - `GET /bookings`: List all bookings for a user (pet human or sitter).
+  - `PUT /bookings/{id}`: Update booking status (accept, cancel, complete).
+  - `GET /bookings/{id}`: Retrieve details of a specific booking.
+
+## API Documentation
+The API documentation will be available through Swagger at `/api-docs` once the application is running.
