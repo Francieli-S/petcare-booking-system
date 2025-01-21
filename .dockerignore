@@ -1,14 +1,28 @@
-dist
-node_modules
-src/tests
+# Ignore build output
+dist/
 
-.dockerignore
+# Ignore dependencies
+node_modules/
+
+# Ignore test files
+src/tests/
+
+# Ignore configuration and sensitive files
 .env
-.env.prod
-.env.test
+.env.*
+!.env.example  # Keep example environment file for reference
+
+# Ignore project metadata files
+.git/
 .gitignore
+
+# Ignore Docker-related files (not needed in the image)
 docker-compose.yml
 Dockerfile
 
+# Ignore others
 api-requirements.md
 notes_mentoring.md
+
+
+

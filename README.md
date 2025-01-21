@@ -1,73 +1,112 @@
 # Petcare Booking System (Work in Progress)
 
-### Installation
+## Installation
 
-#### 1. Clone the Repository
+### 1. Prerequisites
+
+Before you begin, make sure you have the following installed and configured on your machine:
+
+- **Docker Desktop**: [Download here](https://www.docker.com/products/docker-desktop)  
+  Ensure Docker Desktop is running before proceeding.
+- **Git**: [Download here](https://git-scm.com/)  
+- **Node.js (Optional)**: [Download here](https://nodejs.org/)  
+  This is required only if you plan to run the project outside of Docker.
+
+### 2. Clone the Repository
+
+Clone the repository to your local machine and navigate to the project directory:
+
 ```bash
 git clone https://github.com/Francieli-S/petcare-booking-system.git
 cd petcare-booking-system
 ```
 
-#### 2. Install Dependencies
+### 3. Install Dependencies
+
+Install the required Node.js dependencies:
+
 ```bash
 npm install
 ```
 
-#### 3. Compile TS files to JS
+### 4. Compile TypeScript to JavaScript
+
+Compile the TypeScript files to JavaScript:
+
 ```bash
 npm run build
 ```
 
-#### 4. Set Up Environment Variables
-Create a `.env.prod` file in the root directory and configure the following:
+### 5. Set Up Environment Variables
+
+#### For Production
+
+Copy the example environment file and update it with the required values:
+
+```bash
+cp .env.example .env.prod
+```
+
+Edit `.env.prod` to configure your environment (replace `<your_password>` with your chosen password):
 
 ```env
 DB_HOST=db
 DB_PORT=5432
 DB_USERNAME=petcare_admin
-DB_PASSWORD=<add a password>
+DB_PASSWORD=<your_password>
 DB_NAME=petcare_prod
 
 PORT=5002
+NODE_ENV=production
 ```
 
-Create a `.env.test` file in the root directory and configure the following:
+#### For Testing
+
+Create a `.env.test` file for testing:
+
+```bash
+cp .env.example .env.test
+```
+
+Edit `.env.test` to configure your test environment (replace `<your_password>` with your chosen password):
 
 ```env
 DB_HOST=localhost
 DB_PORT=5433
 DB_USERNAME=petcare_admin
-DB_PASSWORD=<add a password>
+DB_PASSWORD=<your_password>
 DB_NAME=petcare_test
 
 PORT=5001
-NODE_ENV=production
 ```
 
-#### 5. Start the Application with Docker
-Build and start the services using Docker Compose:
+### 6. Build and Run the Application
+
+Use Docker Compose to build and start the services:
 
 ```bash
 docker-compose up --build
 ```
 
-The application should now be running at `http://localhost:5002`.
+### 7. Access the Application
 
-### Testing
+The application will be available at `http://localhost:5002` (or the port specified in `.env.prod`).
 
-#### Backend Tests
+## Testing
+
+### Backend Tests
 Run backend tests using Jest:
 ```bash
 npm run test:backend 
 ```
 
-#### Frontend Tests
+### Frontend Tests
 Run frontend tests using React Testing Library:
 ```bash
 npm run test:frontend
 ```
 
-### Overview
+## Overview
 
 The **Petcare Booking System** is a full-stack application designed to connect pet humans with sitters for services such as pet sitting, walking, grooming, and boarding. The platform enables pet humans to browse sitters, schedule bookings for their pets, and leave reviews after services are completed. Sitters can offer their services, manage their availability, and accept or decline booking requests.
 
@@ -78,7 +117,7 @@ The **Petcare Booking System** is a full-stack application designed to connect p
 - **Ratings and Reviews**: After a service is completed, pet humans can leave reviews and ratings for sitters to help future users choose their preferred sitter.
 - **Availability Management**: Sitters can define their availability and services, such as hourly rates and the types of pets they can care for.
 
-### Technologies
+## Technologies
 
 - **Backend**:
   - **Node.js** with **TypeScript**: The backend server is built using Node.js with TypeScript for type safety.
@@ -95,7 +134,7 @@ The **Petcare Booking System** is a full-stack application designed to connect p
   - **Docker**: Containerized application for consistent development and production environments.
   - **AWS**: Infrastructure for scalable and reliable hosting of the application.
 
-### Table Structure
+## Table Structure
 
 The project uses a relational database to store data. The primary tables used are:
 
@@ -104,7 +143,7 @@ The project uses a relational database to store data. The primary tables used ar
 3. **Pet Humans**: Stores details about the pet humans.
 4. **Bookings**: Manages booking details between pet humans and sitters.
 
-### API Endpoints
+## API Endpoints
 
 The application exposes various RESTful API endpoints to interact with the system. Here are some key ones:
 
@@ -130,5 +169,5 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `PUT /bookings/{id}`: Update booking status (accept, cancel, complete).
   - `GET /bookings/{id}`: Retrieve details of a specific booking.
 
-### API Documentation
+## API Documentation
 The API documentation will be available through Swagger at `/api-docs` once the application is running.

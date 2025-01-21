@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Connect to the default database 'postgres' and create the required databases
+echo "Initializing database..."
 psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" <<-EOSQL
      -- Create the 'petcare_admin' role with a password from the environment variable
     CREATE ROLE $DB_USERNAME WITH LOGIN PASSWORD '$DB_PASSWORD';
@@ -13,3 +13,5 @@ psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" <<-EOSQL
     CREATE DATABASE $DB_NAME OWNER $DB_USERNAME;
     CREATE DATABASE petcare_test OWNER $DB_USERNAME;
 EOSQL
+
+echo "Database initialization complete"
