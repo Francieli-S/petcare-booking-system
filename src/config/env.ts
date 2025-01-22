@@ -12,10 +12,10 @@ export const configs = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT || 5000,
   database: {
-    DB_HOST: process.env.DB_HOST || 'db',
-    DB_PORT: parseInt(process.env.DB_PORT || '5432'),
-    DB_USERNAME: process.env.DB_USERNAME || 'petcare_admin',
-    DB_PASSWORD: process.env.DB_PASSWORD || 'petcare_admin',
-    DB_NAME: process.env.DB_NAME || 'petcare_db',
+    POSTGRES_HOST: process.env.POSTGRES_HOST || 'db',
+    POSTGRES_PORT: parseInt(process.env.POSTGRES_PORT || '5432'),
+    POSTGRES_USER: process.env.POSTGRES_USER || 'petcare_admin',
+    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'petcare_admin',
+    POSTGRES_DB: process.env.POSTGRES_DB || 'petcare_db',
   }
 };

@@ -50,11 +50,11 @@ cp .env.example .env.prod
 Edit `.env.prod` to configure your environment (replace `<your_password>` with your chosen password):
 
 ```env
-DB_HOST=db
-DB_PORT=5432
-DB_USERNAME=petcare_admin
-DB_PASSWORD=<your_password>
-DB_NAME=petcare_prod
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+POSTGRES_USER=petcare_admin
+POSTGRES_PASSWORD=<your_password>
+POSTGRES_DB=petcare_prod
 
 PORT=5002
 NODE_ENV=production
@@ -71,11 +71,11 @@ cp .env.example .env.test
 Edit `.env.test` to configure your test environment (replace `<your_password>` with your chosen password):
 
 ```env
-DB_HOST=localhost
-DB_PORT=5433
-DB_USERNAME=petcare_admin
-DB_PASSWORD=<your_password>
-DB_NAME=petcare_test
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5433
+POSTGRES_USER=petcare_admin
+POSTGRES_PASSWORD=<your_password>
+POSTGRES_DB=petcare_test
 
 PORT=5001
 ```
