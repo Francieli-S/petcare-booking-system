@@ -34,4 +34,22 @@ const login = {
   }),
 };
 
-export default { register, login };
+const update = {
+  body: Joi.object({
+    first_name: Joi.string().messages({
+      'string.base': 'First name must be a string'
+    }),
+    last_name: Joi.string().messages({
+      'string.base': 'Last name must be a string'
+    }),
+    email: Joi.string().email().messages({
+      'string.base': 'Email must be a string'
+    }),
+    // password: Joi.string().min(6).required().messages({
+    //   'string.base': 'Password must be a string',
+    //   'any.required': 'Password is required',
+    // }),
+  }),
+};
+
+export default { register, login, update };

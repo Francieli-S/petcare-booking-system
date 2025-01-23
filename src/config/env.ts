@@ -19,6 +19,6 @@ export const configs = {
     POSTGRES_DB: process.env.POSTGRES_DB || 'petcare_db',
   },
   auth: {
-    JWT_SECRET: process.env.JWT_SECRET,
+    JWT_SECRET: process.env.JWT_SECRET || 'petcare',
   },
 };
