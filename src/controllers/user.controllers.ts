@@ -6,11 +6,143 @@ import {
   parseUserId,
   removeSensitiveData,
 } from '../utils/index.js';
+import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { configs } from '../config/env.js';
 
-// TODO: Implement a global error-handlin
-// TODO: Separate bisiness logic (crud handling in another file)
+// TODO: Implement a global error-handling
+// TODO: Separate business logic (crud handling in another file)
 
 const userRepo = AppDataSource.getRepository(User);
+
+const register = async (req: Request, res: Response) => {
+  const { first_name, last_name, email, password } = req.body;
+  // TODO: password and email validation(regex)
+  try {
+    const userExist = await userRepo.findOneBy({ email });
+    if (userExist) {
+      res
+        .status(404)
+        .json({ status: 'error', message: 'Email already registered' });
+      return;
+    }
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    const newUser = userRepo.create({
+      first_name,
+      last_name,
+      email,
+      password: hashedPassword,
+    });
+
+    await userRepo.save(newUser);
+    res.status(201).json({
+      status: 'success',
+      message: 'User registered successfully',
+      data: removeSensitiveData(newUser),
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while registering user',
+      error,
+    });
+  }
+};
+
+const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const userExists = await userRepo.findOneBy({ email });
+    if (
+      !userExists ||
+      !(await bcryptjs.compare(password, userExists.password))
+    ) {
+      res.status(401).send({ message: 'Login credentials are wrong' });
+      return;
+    }
+    if (!configs.auth.JWT_SECRET) {
+      throw new Error('Error in generating token');
+    }
+    const token = jwt.sign({ id: userExists.id }, configs.auth.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+    //TODO: Refresh Token
+    res.status(200).json({
+      status: 'success',
+      message: 'User logged successfull',
+      data: token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occured while logging user',
+      error,
+    });
+  }
+};
+
+const profile = async (req: Request, res: Response) => {
+  const { user } = req;
+  res.status(200).send({ user });
+};
+
+const update = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+
+  // TODO: email and password validation(regex) and encryption(bcryptjs)
+  // TODO: update password, email and role in specific handler
+
+  const { first_name, last_name, email, password } = req.body;
+  try {
+    const user = await userRepo.findOneBy({ id: userId });
+    if (!user) {
+      res.status(404).json({ status: 'error', message: 'User not found' });
+      return;
+    }
+
+    const updateUser = userRepo.merge(user, {
+      first_name,
+      last_name,
+      email,
+      password,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User updated successfully',
+      data: removeSensitiveData(updateUser),
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while updating user',
+      error,
+    });
+  }
+};
+
+const remove = async (req: Request, res: Response) => {
+  const userId = req.user?.id;
+  try {
+    if (userId) {
+      const user = await userRepo.delete(userId);
+      if (user.affected === 0) {
+        res.status(404).json({ status: 'error', message: 'User not found' });
+        return;
+      }
+    }
+    res.status(200).json({
+      status: 'success',
+      message: 'User deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'An error occurred while removing user',
+      error,
+    });
+  }
+};
 
 const get = async (req: Request, res: Response) => {
   const findOptions = queryParser(req.query, ['role']);
@@ -55,7 +187,7 @@ const getById = async (req: Request, res: Response) => {
     return;
   }
   try {
-    const user = await userRepo.findOneBy({ user_id: userId });
+    const user = await userRepo.findOneBy({ id: userId });
     if (!user) {
       res.status(404).json({ status: 'error', message: 'User not found' });
       return;
@@ -75,110 +207,4 @@ const getById = async (req: Request, res: Response) => {
   }
 };
 
-const create = async (req: Request, res: Response) => {
-  const { first_name, last_name, email, password, phone, role, city } =
-    req.body;
-  // TODO: password and email validation(regex) and encryption(bcryptjs)
-
-  try {
-    const user = await userRepo.findOneBy({ email });
-    if (user) {
-      res
-        .status(404)
-        .json({ status: 'error', message: 'Email already registered' });
-      return;
-    }
-    const newUser = userRepo.create({
-      first_name,
-      last_name,
-      email,
-      password,
-      phone,
-      role,
-      city,
-    });
-
-    await userRepo.save(newUser);
-    res.status(201).json({
-      status: 'success',
-      message: 'User created successfully',
-      data: removeSensitiveData(newUser),
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while creating user',
-      error,
-    });
-  }
-};
-
-const update = async (req: Request, res: Response) => {
-  const userId = parseUserId(req.params.id);
-
-  if (!userId) {
-    res.status(400).json({ status: 'error', message: 'Invalid user ID' });
-    return;
-  }
-
-  // TODO: email and password validation(regex) and encryption(bcryptjs)
-  // TODO: update password, email and role in specific handler
-
-  const { first_name, last_name, phone, city } = req.body;
-  try {
-    const user = await userRepo.findOneBy({ user_id: userId });
-    if (!user) {
-      res.status(404).json({ status: 'error', message: 'User not found' });
-      return;
-    }
-
-    const updateUser = userRepo.merge(user, {
-      first_name,
-      last_name,
-      phone,
-      city,
-    });
-
-    res.status(200).json({
-      status: 'success',
-      message: 'User updated successfully',
-      data: removeSensitiveData(updateUser),
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while updating user',
-      error,
-    });
-  }
-};
-
-const remove = async (req: Request, res: Response) => {
-  const userId = parseUserId(req.params.id);
-
-  if (!userId) {
-    res.status(400).json({ status: 'error', message: 'Invalid user ID' });
-    return;
-  }
-
-  try {
-    const userToRemove = await userRepo.delete(userId);
-    if (userToRemove.affected === 0) {
-      res.status(404).json({ status: 'error', message: 'User not found' });
-      return;
-    }
-
-    res.status(200).json({
-      status: 'success',
-      message: 'User deleted successfully',
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while removing user',
-      error,
-    });
-  }
-};
-
-export default { get, getById, create, update, remove };
+export default { register, login, profile, update, remove, get, getById };
