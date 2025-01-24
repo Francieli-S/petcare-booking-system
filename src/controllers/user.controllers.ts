@@ -8,7 +8,6 @@ import {
   getUsers,
   getUserById,
 } from '../services/user.services.js';
-import { error } from 'console';
 
 const register = async (req: Request, res: Response) => {
   const { first_name, last_name, email, password } = req.body;
