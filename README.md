@@ -155,7 +155,10 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `POST /users/register`: Register a new user (pet human or sitter).
   - `POST /users/login`: Authenticate a user and issue a token.
   - `GET /users/profile`: Retrieve the profile of the logged-in user.
-  - `PUT /users/profile`: Update user details.
+  - `PATCH /users/`: Update user details.
+  - `DELETE /users/`: Delete user.
+  - `GET /users/`: Retrieve all users.
+  - `GET /users/:id`: Retrieve an user by id.
 
 - **Pet Human Endpoints**:
   - `POST /pets`: Add a pet to the owner's profile.
