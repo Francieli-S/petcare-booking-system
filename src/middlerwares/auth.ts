@@ -27,7 +27,7 @@ const authMiddleWare = async (
       res.status(401).send({ message: 'Invalid token: User not found' });
       return;
     }
-    req.user = { id: user.id, first_name: user.first_name, last_name: user.last_name, email: user.email };
+    req.user = user;
     next();
   } catch (error: any) {
     if (error) {
