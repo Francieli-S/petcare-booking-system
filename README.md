@@ -154,22 +154,23 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `POST /users/register`: Register a new user (pet human or sitter).
   - `POST /users/login`: Authenticate a user and issue a token.
   - `GET /users/profile`: Retrieve the profile of the logged-in user.
-  - `PATCH /users/`: Update user details.
-  - `DELETE /users/`: Delete user.
-  - `GET /users/`: Retrieve all users.
+  - `PATCH /users`: Update user details.
+  - `DELETE /users`: Delete user.
+  - `GET /users`: Retrieve all users.
   - `GET /users/:id`: Retrieve an user by id.
 
 - **Sitter Endpoints**:
-  - `POST /sitters`: Register a new sitter.
+  - `POST /sitters`: Create a new sitter.
   - `GET /sitters/:id`: Retrieve a sitter by id.
   - `GET /sitters/all`: List all sitters.
   - `PATCH /sitters`: Update sitter details.
 
 - **Booking Endpoints**:
-  - `POST /bookings`: Create a new booking request.
-  - `GET /bookings`: List all bookings for a user (pet human or sitter).
-  - `PUT /bookings/{id}`: Update booking status (accept, cancel, complete).
-  - `GET /bookings/{id}`: Retrieve details of a specific booking.
+  - `POST /bookings`: Create a new booking.
+  - `GET /bookings`: List all bookings for a user.
+  - `GET /bookings/:id`: Retrieve details of a specific booking.
+  - `PATCH /bookings/:id`: Update booking (exept status).
+  - `DELETE /bookings`: Delete user.
 
 ## API Documentation
 The API documentation will be available through Swagger at `/api-docs` once the application is running.
