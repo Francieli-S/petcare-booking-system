@@ -23,9 +23,9 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password!: string;
 
-  @CreateDateColumn({ default: () => 'NOW()' })
+  @CreateDateColumn()
   created_at!: Date;
 
-  @UpdateDateColumn({ default: () => 'NOW()' })
+  @UpdateDateColumn()
   updated_at!: Date;
 }
