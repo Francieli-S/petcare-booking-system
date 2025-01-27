@@ -1,30 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+  Index,
+} from 'typeorm';
 import { User } from './User.js';
-import { ServiceType } from './types.js';
 
-@Entity()
+@Entity('sitters')
 export class Sitter {
   @PrimaryGeneratedColumn()
-  sitter_id!: number;
+  id!: number;
 
   @OneToOne(() => User)
+  @JoinColumn({name: 'userId'})
+  @Index()
   user!: User;
 
-  @Column()
+  @Column({ type: 'text' })
   bio!: string;
 
-  @Column({ type: 'enum', enum: ServiceType })
-  services_offered!: ServiceType;
-
-  @Column()
-  is_available!: boolean;
-
-  @Column()
+  @Column({ type: 'float', default: 0 })
   rating!: number;
 
-  @Column()
-  rate_per_hour!: number;
-
-  @Column({ default: () => 'NOW()' })
+  @CreateDateColumn()
   created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

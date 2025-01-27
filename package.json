@@ -13,15 +13,19 @@
   "license": "ISC",
   "description": "A petcare booking system with microservices",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.0",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.7.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"

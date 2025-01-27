@@ -1,41 +1,55 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Index,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { Sitter } from './Sitter.js';
-import { PetHuman } from './PetHuman.js';
 import { ServiceType } from './types.js';
 import { BookingStatus } from './types.js';
+import { User } from './User.js';
 
-@Entity()
+@Entity('bookings')
 export class Booking {
   @PrimaryGeneratedColumn()
-  booking_id!: number;
+  id!: number;
 
-  @ManyToOne(() => Sitter)
+  @Index()
+  @ManyToOne(() => Sitter, { eager: true, onDelete: 'CASCADE' })
   sitter!: Sitter;
 
-  @ManyToOne(() => PetHuman)
-  pet_human!: PetHuman;
-  
+  @Index()
+  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' })
+  user!: User;
+
   @Column({ type: 'enum', enum: ServiceType })
   service_type!: ServiceType;
 
-  @Column()
-  booking_month!: string;
+  @Column({ type: 'int', unsigned: true })
+  number_of_days!: number;
 
-  @Column()
-  booking_days!: string;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  total_cost!: number;
 
-  @Column()
-  total_hours!: number;
-
-  @Column()
-  total_price!: number;
-
-  @Column({ type: 'enum', enum: BookingStatus })
+  @Column({ type: 'enum', enum: BookingStatus, default: BookingStatus.PENDING })
   status!: BookingStatus;
 
-  @Column()
-  review!: string;
-
-  @Column({ default: () => 'NOW()' })
+  @CreateDateColumn()
   created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  confirmed_at!: Date | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  canceled_at!: Date | null;
+
+  @DeleteDateColumn()
+  deleted_at!: Date | null;
 }

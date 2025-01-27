@@ -144,8 +144,7 @@ The project uses a relational database to store data. The primary tables used ar
 
 1. **Users**: Stores information about users (both pet humans and sitters).
 2. **Sitters**: Contains data specific to users who are registered as sitters.
-3. **Pet Humans**: Stores details about the pet humans.
-4. **Bookings**: Manages booking details between pet humans and sitters.
+3. **Bookings**: Manages booking details between pet humans and sitters.
 
 ## API Endpoints
 
@@ -155,23 +154,23 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `POST /users/register`: Register a new user (pet human or sitter).
   - `POST /users/login`: Authenticate a user and issue a token.
   - `GET /users/profile`: Retrieve the profile of the logged-in user.
-  - `PUT /users/profile`: Update user details.
-
-- **Pet Human Endpoints**:
-  - `POST /pets`: Add a pet to the owner's profile.
-  - `GET /pets`: Get a list of pets for the logged-in owner.
-  - `PUT /pets/{id}`: Update pet information.
-  - `DELETE /pets/{id}`: Remove a pet from the owner's profile.
+  - `PATCH /users`: Update user details.
+  - `DELETE /users`: Delete user.
+  - `GET /users`: Retrieve all users.
+  - `GET /users/:id`: Retrieve an user by id.
 
 - **Sitter Endpoints**:
-  - `GET /sitters`: List all sitters based on filters (location, services).
-  - `GET /sitters/{id}`: Get detailed information about a specific sitter.
+  - `POST /sitters`: Create a new sitter.
+  - `GET /sitters/:id`: Retrieve a sitter by id.
+  - `GET /sitters/all`: List all sitters.
+  - `PATCH /sitters`: Update sitter details.
 
 - **Booking Endpoints**:
-  - `POST /bookings`: Create a new booking request.
-  - `GET /bookings`: List all bookings for a user (pet human or sitter).
-  - `PUT /bookings/{id}`: Update booking status (accept, cancel, complete).
-  - `GET /bookings/{id}`: Retrieve details of a specific booking.
+  - `POST /bookings`: Create a new booking.
+  - `GET /bookings`: List all bookings for a user.
+  - `GET /bookings/:id`: Retrieve details of a specific booking.
+  - `PATCH /bookings/:id`: Update booking (exept status).
+  - `DELETE /bookings`: Delete user.
 
 ## API Documentation
 The API documentation will be available through Swagger at `/api-docs` once the application is running.
