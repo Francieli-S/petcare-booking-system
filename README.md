@@ -167,8 +167,10 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `DELETE /pets/{id}`: Remove a pet from the owner's profile.
 
 - **Sitter Endpoints**:
-  - `GET /sitters`: List all sitters based on filters (location, services).
-  - `GET /sitters/{id}`: Get detailed information about a specific sitter.
+  - `POST /sitters`: Register a new sitter.
+  - `GET /sitters/:id`: Retrieve a sitter by id.
+  - `GET /sitters/all`: List all sitters.
+  - `PATCH /sitters`: Update sitter details.
 
 - **Booking Endpoints**:
   - `POST /bookings`: Create a new booking request.
