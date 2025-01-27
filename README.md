@@ -144,8 +144,7 @@ The project uses a relational database to store data. The primary tables used ar
 
 1. **Users**: Stores information about users (both pet humans and sitters).
 2. **Sitters**: Contains data specific to users who are registered as sitters.
-3. **Pet Humans**: Stores details about the pet humans.
-4. **Bookings**: Manages booking details between pet humans and sitters.
+3. **Bookings**: Manages booking details between pet humans and sitters.
 
 ## API Endpoints
 
@@ -159,12 +158,6 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `DELETE /users/`: Delete user.
   - `GET /users/`: Retrieve all users.
   - `GET /users/:id`: Retrieve an user by id.
-
-- **Pet Human Endpoints**:
-  - `POST /pets`: Add a pet to the owner's profile.
-  - `GET /pets`: Get a list of pets for the logged-in owner.
-  - `PUT /pets/{id}`: Update pet information.
-  - `DELETE /pets/{id}`: Remove a pet from the owner's profile.
 
 - **Sitter Endpoints**:
   - `POST /sitters`: Register a new sitter.
