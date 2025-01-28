@@ -12,7 +12,9 @@ const createBooking = {
       .required()
       .messages({
         'string.base': 'Service type must be a string',
-        'any.only': `Service type must be one of: ${Object.values(ServiceType).join(', ')}`,
+        'any.only': `Service type must be one of: ${Object.values(
+          ServiceType
+        ).join(', ')}`,
         'any.required': 'Service type is required',
       }),
     number_of_days: Joi.number().integer().positive().required().messages({
@@ -24,7 +26,7 @@ const createBooking = {
   }),
 };
 
-const updateBooking = {
+const updateBookingByUser = {
   params: Joi.object({
     id: Joi.number().required().messages({
       'number.base': 'Booking ID must be a number',
@@ -36,7 +38,9 @@ const updateBooking = {
       .valid(...Object.values(ServiceType))
       .messages({
         'string.base': 'Service type must be a string',
-        'any.only': `Service type must be one of: ${Object.values(ServiceType).join(', ')}`,
+        'any.only': `Service type must be one of: ${Object.values(
+          ServiceType
+        ).join(', ')}`,
       }),
     number_of_days: Joi.number().integer().positive().messages({
       'number.base': 'Number of days must be a number',
@@ -44,10 +48,36 @@ const updateBooking = {
       'number.positive': 'Number of days must be a positive number',
     }),
     status: Joi.string()
-      .valid(...Object.values(BookingStatus))
+      .valid(BookingStatus.CANCELED)
       .messages({
         'string.base': 'Status must be a string',
-        'any.only': `Status must be one of: ${Object.values(BookingStatus).join(', ')}`,
+        'any.only': `Status must be one of: ${Object.values(BookingStatus).join(
+          ', '
+        )}`,
+      }),
+  }),
+};
+
+const updateBookingBySitter = {
+  params: Joi.object({
+    id: Joi.number().required().messages({
+      'number.base': 'Booking ID must be a number',
+      'any.required': 'Booking ID is required',
+    }),
+  }),
+  body: Joi.object({
+    status: Joi.string()
+      .valid(
+        BookingStatus.ACCEPTED,
+        BookingStatus.COMPLETED,
+        BookingStatus.CANCELED
+      )
+      .required()
+      .messages({
+        'string.base': 'Status must be a string',
+        'any.only': `Status must be one of: ${Object.values(BookingStatus).join(
+          ', '
+        )}`,
       }),
   }),
 };
@@ -61,4 +91,9 @@ const deleteBooking = {
   }),
 };
 
-export default { createBooking, updateBooking, deleteBooking };
+export default {
+  createBooking,
+  updateBookingByUser,
+  updateBookingBySitter,
+  deleteBooking,
+};

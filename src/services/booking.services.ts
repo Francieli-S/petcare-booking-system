@@ -81,7 +81,7 @@ export const createNewBooking = async (
   return await bookingRepo.save(booking);
 };
 
-export const updateOneBooking = async (
+export const updateOneBookingByUser = async (
   id: number,
   userId: number,
   updates: {
@@ -104,6 +104,26 @@ export const updateOneBooking = async (
 
   const updatedBooking = bookingRepo.merge(booking, updates);
   return await bookingRepo.save(updatedBooking);
+};
+
+export const updateOneBookingStatusBySitter = async (
+  id: number,
+  userId: number,
+  status: BookingStatus
+) => {
+  const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
+  if (!sitter) {
+    throw { status: 403, message: 'Sitter not found' };
+  }
+  const booking = await bookingRepo.findOne({
+    where: { id, sitter: { id: sitter.id } },
+    relations: ['sitter', 'user'],
+  });
+  if (!booking) {
+    throw { status: 404, message: 'Booking not found' };
+  }
+  booking.status = status;
+  return await bookingRepo.save(booking);
 };
 
 export const deleteOneBooking = async (id: number, userId: number) => {
