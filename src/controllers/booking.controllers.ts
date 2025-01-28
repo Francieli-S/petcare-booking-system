@@ -8,8 +8,9 @@ import {
 } from '../services/booking.services.js';
 
 const getBookings = async (req: Request, res: Response) => {
+  const { user } = req;
   try {
-    const bookings = await getAllBookings(req.user.id);
+    const bookings = await getAllBookings(user.id);
     res.status(200).json({ status: 'success', data: bookings });
   } catch (err) {
     const error = err as Error;
@@ -23,9 +24,10 @@ const getBookings = async (req: Request, res: Response) => {
 };
 
 const getBooking = async (req: Request, res: Response) => {
+  const { user } = req;
   const { id } = req.params;
   try {
-    const booking = await getOneBooking(+id, req.user.id);
+    const booking = await getOneBooking(+id, user.id);
     res.status(200).json({ status: 'success', data: booking });
   } catch (err) {
     const error = err as Error;
