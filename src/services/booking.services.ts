@@ -9,6 +9,19 @@ const sitterRepo = AppDataSource.getRepository(Sitter);
 const userRepo = AppDataSource.getRepository(User);
 
 export const getAllBookings = async (userId: number) => {
+  // while sitter do not create booking as an user
+  // check if user is a sitter
+  const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
+
+  if (sitter) {
+    // retrive only bookings for their sitter id
+    return await bookingRepo.find({
+      where: { sitter: { id: sitter.id } },
+      relations: ['sitter', 'user'],
+    });
+  }
+
+  // if user is not a sitter, retrive only bookings created for the user id
   return await bookingRepo.find({
     where: { user: { id: userId } },
     relations: ['sitter', 'user'],
@@ -16,10 +29,26 @@ export const getAllBookings = async (userId: number) => {
 };
 
 export const getOneBooking = async (id: number, userId: number) => {
-  const booking = await bookingRepo.findOne({
-    where: { id, user: { id: userId } },
-    relations: ['sitter', 'user'],
-  });
+  // while sitter do not create booking as an user
+  // check if user is a sitter
+  const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
+
+  let booking;
+
+  if (sitter) {
+    // retrive only the booking for their sitter id
+    booking = await bookingRepo.findOne({
+      where: { id, sitter: { id: sitter.id } },
+      relations: ['sitter', 'user'],
+    });
+  } else {
+    // if user is not a sitter, retrive only the booking created for the user id
+    booking = await bookingRepo.findOne({
+      where: { id, user: { id: userId } },
+      relations: ['sitter', 'user'],
+    });
+  }
+
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
   }
@@ -55,7 +84,11 @@ export const createNewBooking = async (
 export const updateOneBooking = async (
   id: number,
   userId: number,
-  updates: { service_type?: ServiceType; number_of_days?: number; status?: BookingStatus }
+  updates: {
+    service_type?: ServiceType;
+    number_of_days?: number;
+    status?: BookingStatus;
+  }
 ) => {
   const booking = await bookingRepo.findOne({
     where: { id, user: { id: userId } },
@@ -66,7 +99,7 @@ export const updateOneBooking = async (
   }
 
   if (updates.number_of_days) {
-    booking.total_cost = parseFloat((updates.number_of_days * 15).toFixed(2))
+    booking.total_cost = parseFloat((updates.number_of_days * 15).toFixed(2));
   }
 
   const updatedBooking = bookingRepo.merge(booking, updates);
