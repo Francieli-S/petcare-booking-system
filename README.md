@@ -41,7 +41,7 @@ docker-compose up --build
 
 ### 7. Access the Application
 
-The application will be available at `http://localhost:5002` (or the port specified in `.env.prod`).
+The application will be available at `http://localhost:5002`.
 
 ## Testing
 

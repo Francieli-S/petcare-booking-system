@@ -15,8 +15,6 @@ services:
       POSTGRES_USER: petcare_admin
       POSTGRES_PASSWORD: petcare_admin
       POSTGRES_DB: petcare_db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
 
   petcare:
     build: 
@@ -32,7 +30,5 @@ services:
       NODE_ENV: production
       JWT_SECRET: "$$2y$12$hYrxrRlOFt3lGAPg2v5LnOupdSlDKict7Wy.1awUB6KVKQfbt4fjG"
    
-volumes:
-  pgdata:
 
 
