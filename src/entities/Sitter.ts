@@ -16,7 +16,7 @@ export class Sitter {
   id!: number;
 
   @OneToOne(() => User)
-  @JoinColumn({name: 'userId'})
+  @JoinColumn({ name: 'userId' })
   @Index()
   user!: User;
 

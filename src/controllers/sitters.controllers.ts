@@ -31,7 +31,11 @@ const getSitter = async (req: Request, res: Response) => {
     const error = err as Error;
     res
       .status(404)
-      .json({ status: 'error', message: error.message || 'An error occurred', user });
+      .json({
+        status: 'error',
+        message: error.message || 'An error occurred',
+        user,
+      });
   }
 };
 
@@ -41,28 +45,23 @@ const getSitters = async (req: Request, res: Response) => {
     res.status(200).json({ status: 'success', data: sitters });
   } catch (err) {
     const error = err as Error;
-    res
-      .status(500)
-      .json({
-        status: 'error',
-        message: error.message || 'Internal server error',
-      });
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Internal server error',
+    });
   }
 };
 
 const updateSitter = async (req: Request, res: Response) => {
   const { user } = req;
   const updates = req.body;
-
   try {
     const sitter = await updateSitterProfile(user, updates);
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        message: 'Sitter profile updated',
-        data: sitter,
-      });
+    res.status(200).json({
+      status: 'success',
+      message: 'Sitter profile updated',
+      data: sitter,
+    });
   } catch (err) {
     const error = err as Error;
     res

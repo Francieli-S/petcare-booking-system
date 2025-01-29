@@ -28,13 +28,11 @@ const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const token = await loginUser(email, password);
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        message: 'User logged in successfully',
-        data: token,
-      });
+    res.status(200).json({
+      status: 'success',
+      message: 'User logged in successfully',
+      data: token,
+    });
   } catch (err) {
     const error = err as Error;
     res
@@ -65,13 +63,11 @@ const update = async (req: Request, res: Response) => {
       last_name,
       email,
     });
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        message: 'User updated successfully',
-        data: updatedUser,
-      });
+    res.status(200).json({
+      status: 'success',
+      message: 'User updated successfully',
+      data: updatedUser,
+    });
   } catch (err) {
     const error = err as Error;
     res
@@ -100,13 +96,11 @@ const get = async (req: Request, res: Response) => {
   const limit = Number(req.query.limit) || 10;
   try {
     const users = await getUsers(req.query, page, limit);
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        data: users,
-        message: 'Users retrieved successfully',
-      });
+    res.status(200).json({
+      status: 'success',
+      data: users,
+      message: 'Users retrieved successfully',
+    });
   } catch (err) {
     const error = err as Error;
     res
@@ -119,13 +113,11 @@ const getById = async (req: Request, res: Response) => {
   const userId = +req.params.id;
   try {
     const user = await getUserById(userId);
-    res
-      .status(200)
-      .json({
-        status: 'success',
-        message: 'User retrieved successfully',
-        data: user,
-      });
+    res.status(200).json({
+      status: 'success',
+      message: 'User retrieved successfully',
+      data: user,
+    });
   } catch (err) {
     const error = err as Error;
     res

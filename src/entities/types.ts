@@ -15,12 +15,12 @@ export enum PetType {
   CAT = 'Cat',
   REPTILE = 'Reptile',
   RABBIT = 'Rabbit',
-  OTHER = 'Other'
+  OTHER = 'Other',
 }
 
 export enum BookingStatus {
   PENDING = 'Pending',
   ACCEPTED = 'Accepted',
   COMPLETED = 'Completed',
-  CANCELED = 'Canceled'
+  CANCELED = 'Canceled',
 }
