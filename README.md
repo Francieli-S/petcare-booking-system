@@ -30,11 +30,12 @@ npm install
 Copy the example environment file and update it with the required values:
 
 ```bash
-export $(cat .env.example)
+env $(cat .env) (or env $(cat .env.example) or env $(cat .env.prod ) ??)
+
 ```
 
 ### 6. Build and Run the Application
-
+ 
 ```bash
 docker-compose up --build
 ```
