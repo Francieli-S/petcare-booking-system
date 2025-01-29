@@ -2,18 +2,28 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../entities/User.js';
 import { AppDataSource } from '../config/database.js';
-import { queryParser, parseUserId, removeSensitiveData } from '../utils/index.js';
+import { queryParser, removeSensitiveData } from '../utils/index.js';
 import { configs } from '../config/env.js';
 
 const userRepo = AppDataSource.getRepository(User);
 
-export const registerUser = async (first_name: string, last_name: string, email: string, password: string) => {
+export const registerUser = async (
+  first_name: string,
+  last_name: string,
+  email: string,
+  password: string
+) => {
   const userExist = await userRepo.findOneBy({ email });
   if (userExist) {
     throw { status: 404, message: 'Email already registered' };
   }
   const hashedPassword = await bcryptjs.hash(password, 10);
-  const newUser = userRepo.create({ first_name, last_name, email, password: hashedPassword });
+  const newUser = userRepo.create({
+    first_name,
+    last_name,
+    email,
+    password: hashedPassword,
+  });
   await userRepo.save(newUser);
 };
 
@@ -25,7 +35,9 @@ export const loginUser = async (email: string, password: string) => {
   if (!configs.auth.JWT_SECRET) {
     throw new Error('Error in generating token');
   }
-  return jwt.sign({ id: userExists.id }, configs.auth.JWT_SECRET, { expiresIn: '1h' });
+  return jwt.sign({ id: userExists.id }, configs.auth.JWT_SECRET, {
+    expiresIn: '1h',
+  });
 };
 
 export const getUserProfile = async (user: any) => {
@@ -35,7 +47,10 @@ export const getUserProfile = async (user: any) => {
   return user;
 };
 
-export const updateUser = async (userId: number | undefined, updates: { first_name?: string; last_name?: string; email?: string }) => {
+export const updateUser = async (
+  userId: number | undefined,
+  updates: { first_name?: string; last_name?: string; email?: string }
+) => {
   if (!userId) {
     throw { status: 400, message: 'User ID is required' };
   }
@@ -60,7 +75,11 @@ export const removeUser = async (userId: number | undefined) => {
 
 export const getUsers = async (query: any, page: number, limit: number) => {
   const findOptions = queryParser(query, ['role']);
-  const users = await userRepo.find({ ...findOptions, skip: (page - 1) * limit, take: limit });
+  const users = await userRepo.find({
+    ...findOptions,
+    skip: (page - 1) * limit,
+    take: limit,
+  });
   if (!users.length) {
     throw { status: 404, message: 'No users found' };
   }
@@ -77,5 +96,3 @@ export const getUserById = async (userId: number | undefined) => {
   }
   return removeSensitiveData(user);
 };
-
-

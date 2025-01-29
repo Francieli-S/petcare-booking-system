@@ -20,7 +20,6 @@ const authMiddleWare = async (
     if (!configs.auth.JWT_SECRET) {
       throw new Error('Error in verifying the token');
     }
-
     const decode = jwt.verify(token, configs.auth.JWT_SECRET) as { id: number };
     const user = await userRepo.findOneBy({ id: decode.id });
     if (!user) {

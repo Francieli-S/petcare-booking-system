@@ -12,7 +12,6 @@ export const getAllBookings = async (userId: number) => {
   // while sitter do not create booking as an user
   // check if user is a sitter
   const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
-
   if (sitter) {
     // retrive only bookings for their sitter id
     return await bookingRepo.find({
@@ -20,7 +19,6 @@ export const getAllBookings = async (userId: number) => {
       relations: ['sitter', 'user'],
     });
   }
-
   // if user is not a sitter, retrive only bookings created for the user id
   return await bookingRepo.find({
     where: { user: { id: userId } },
@@ -32,9 +30,7 @@ export const getOneBooking = async (id: number, userId: number) => {
   // while sitter do not create booking as an user
   // check if user is a sitter
   const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
-
   let booking;
-
   if (sitter) {
     // retrive only the booking for their sitter id
     booking = await bookingRepo.findOne({
@@ -48,7 +44,6 @@ export const getOneBooking = async (id: number, userId: number) => {
       relations: ['sitter', 'user'],
     });
   }
-
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
   }
@@ -69,7 +64,6 @@ export const createNewBooking = async (
   if (!user) {
     throw { status: 404, message: 'User not found' };
   }
-
   const booking = bookingRepo.create({
     user,
     sitter,
@@ -97,11 +91,9 @@ export const updateOneBookingByUser = async (
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
   }
-
   if (updates.number_of_days) {
     booking.total_cost = parseFloat((updates.number_of_days * 15).toFixed(2));
   }
-
   const updatedBooking = bookingRepo.merge(booking, updates);
   return await bookingRepo.save(updatedBooking);
 };
