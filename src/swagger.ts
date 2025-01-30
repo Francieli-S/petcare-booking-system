@@ -1,6 +1,7 @@
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
+import { configs } from './config/env.js';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -12,7 +13,7 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: "http://localhost:5002",
+        url: `http://localhost:${configs.PORT}`,
         description: "Local server",
       },
     ],
@@ -71,8 +72,6 @@ const options: swaggerJsdoc.Options = {
     },
   },
   apis: ["./src/routes/*.routes.ts"],
-  // but swagger will process only the routes with @swagger comments inside
-  // so "./src/routes/*.ts" should be also fine
 };
 
 const swaggerSpec = swaggerJsdoc(options);
