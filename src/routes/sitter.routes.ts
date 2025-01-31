@@ -59,6 +59,10 @@ router.get('/all', sitterController.getSitters);
  *         description: Unauthorized
  *       404:
  *         description: Sitter not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorSitterResponse'
  */
 router.get('/:id', auth, sitterController.getSitter);
 
