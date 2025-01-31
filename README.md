@@ -4,13 +4,7 @@
 
 ### 1. Prerequisites
 
-Before you begin, make sure you have the following installed and configured on your machine:
-
-- **Docker Desktop**: [Download here](https://www.docker.com/products/docker-desktop)  
-  Ensure Docker Desktop is running before proceeding.
-- **Git**: [Download here](https://git-scm.com/)  
-- **Node.js (Optional)**: [Download here](https://nodejs.org/)  
-  This is required only if you plan to run the project outside of Docker.
+This project was built and runs using Node v23.6.0
 
 ### 2. Clone the Repository
 
@@ -29,72 +23,26 @@ Install the required Node.js dependencies:
 npm install
 ```
 
-### 4. Compile TypeScript to JavaScript
-
-Compile the TypeScript files to JavaScript:
-
-```bash
-npm run build
-```
+### 4. Build the project
 
 ### 5. Set Up Environment Variables
-
-#### For Production
 
 Copy the example environment file and update it with the required values:
 
 ```bash
-cp .env.example .env.prod
-```
+env $(cat .env) (or env $(cat .env.example) or env $(cat .env.prod ) ??)
 
-Edit `.env.prod` to configure your environment (replace `<your_password>` with your chosen password):
-
-```env
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-POSTGRES_USER=petcare_admin
-POSTGRES_PASSWORD=<your_password>
-POSTGRES_DB=petcare_prod
-
-PORT=5002
-NODE_ENV=production
-```
-
-#### For Testing
-
-Create a `.env.test` file for testing:
-
-```bash
-cp .env.example .env.test
-```
-
-Edit `.env.test` to configure your test environment (replace `<your_password>` with your chosen password):
-
-```env
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5433
-POSTGRES_USER=petcare_admin
-POSTGRES_PASSWORD=<your_password>
-POSTGRES_DB=petcare_test
-
-PORT=5001
 ```
 
 ### 6. Build and Run the Application
-
-1. Ensure the initialization script is executable:
-   ```bash
-   chmod +x init-database.sh
-
-2. Use Docker Compose to build and start the services:
-
+ 
 ```bash
 docker-compose up --build
 ```
 
 ### 7. Access the Application
 
-The application will be available at `http://localhost:5002` (or the port specified in `.env.prod`).
+The application will be available at `http://localhost:5002`.
 
 ## Testing
 
