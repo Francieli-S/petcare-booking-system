@@ -23,6 +23,9 @@ const createSitter = async (req: Request, res: Response) => {
 };
 
 const getSitter = async (req: Request, res: Response) => {
+  // TODO: this is destructuring req.user but passing params!!
+  // correct it and make a separeted route to get sitter profile by id(user request)
+  // and another to get sitter profile by token(sitter request)
   const { user } = req;
   try {
     const sitter = await getSitterProfile(req.params.id as unknown as number);

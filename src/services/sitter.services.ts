@@ -22,6 +22,13 @@ export const createSitterProfile = async (user: User, bio: string) => {
 };
 
 export const getSitterProfile = async (userId: number) => {
+  // this is not working properly
+  // user 7 logged who is sitter 2 pass id 2 retrieves user 7 data, but sitter not found message
+  // user 7 logged who is sitter 2 pass id 1 retrieves sitter 1 who is user 1 too
+
+  // user 1 logged who is sitter 1 pass id 1 retrieves sitter 1 who is user 1 too
+  // user 1 logged who is sitter 1 pass id 2 retrieves user 7 data, but sitter not found message
+
   const sitter = await sitterRepo.findOne({
     where: {
       user: {
@@ -33,6 +40,7 @@ export const getSitterProfile = async (userId: number) => {
   if (!sitter) {
     throw new Error('Sitter profile not found');
   }
+  // TODO: remove password from the user
   return sitter;
 };
 
