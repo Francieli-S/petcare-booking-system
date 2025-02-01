@@ -44,8 +44,7 @@ export const getUserProfile = async (user: any) => {
   if (!user) {
     throw { status: 404, message: 'User not found' };
   }
-  // TODO: remove password
-  return user;
+  return removeSensitiveData(user);
 };
 
 export const updateUser = async (
