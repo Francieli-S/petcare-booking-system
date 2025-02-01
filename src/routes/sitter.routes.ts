@@ -33,14 +33,28 @@ const router = Router();
  */
 router.get('/all', sitterController.getSitters);
 
+// /**
+//  * @swagger
+//  * /api/sitters/profile:
+//  *   get:
+//  *     summary: Get the authenticated sitter's profile
+//  *     tags: [Sitters]
+//  *     security:
+//  *       - bearerAuth: []
+//  *     responses:
+//  *       200:
+//  *         description: Sitter profile retrieved successfully
+//  *       401:
+//  *         description: Unauthorized
+//  */
+router.get('/profile', auth, sitterController.getSitterProfile);
+
 /**
  * @swagger
  * /api/sitters/{id}:
  *   get:
  *     summary: Get a sitter by ID
  *     tags: [Sitters]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -55,8 +69,6 @@ router.get('/all', sitterController.getSitters);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Sitter'
- *       401:
- *         description: Unauthorized
  *       404:
  *         description: Sitter not found
  *         content:
@@ -64,7 +76,7 @@ router.get('/all', sitterController.getSitters);
  *             schema:
  *               $ref: '#/components/schemas/ErrorSitterResponse'
  */
-router.get('/:id', auth, sitterController.getSitter);
+router.get('/:id', sitterController.getSitter);
 
 /**
  * @swagger
