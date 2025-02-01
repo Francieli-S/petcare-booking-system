@@ -33,20 +33,20 @@ const router = Router();
  */
 router.get('/all', sitterController.getSitters);
 
-// /**
-//  * @swagger
-//  * /api/sitters/profile:
-//  *   get:
-//  *     summary: Get the authenticated sitter's profile
-//  *     tags: [Sitters]
-//  *     security:
-//  *       - bearerAuth: []
-//  *     responses:
-//  *       200:
-//  *         description: Sitter profile retrieved successfully
-//  *       401:
-//  *         description: Unauthorized
-//  */
+/**
+ * @swagger
+ * /api/sitters/profile:
+ *   get:
+ *     summary: Get the authenticated sitter's profile
+ *     tags: [Sitters]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Sitter profile retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ */
 router.get('/profile', auth, sitterController.getSitterProfile);
 
 /**
