@@ -4,13 +4,7 @@
 
 ### 1. Prerequisites
 
-Before you begin, make sure you have the following installed and configured on your machine:
-
-- **Docker Desktop**: [Download here](https://www.docker.com/products/docker-desktop)  
-  Ensure Docker Desktop is running before proceeding.
-- **Git**: [Download here](https://git-scm.com/)  
-- **Node.js (Optional)**: [Download here](https://nodejs.org/)  
-  This is required only if you plan to run the project outside of Docker.
+This project was built and runs using Node v23.6.0
 
 ### 2. Clone the Repository
 
@@ -29,72 +23,26 @@ Install the required Node.js dependencies:
 npm install
 ```
 
-### 4. Compile TypeScript to JavaScript
-
-Compile the TypeScript files to JavaScript:
-
-```bash
-npm run build
-```
+### 4. Build the project
 
 ### 5. Set Up Environment Variables
-
-#### For Production
 
 Copy the example environment file and update it with the required values:
 
 ```bash
-cp .env.example .env.prod
-```
+env $(cat .env.example)
 
-Edit `.env.prod` to configure your environment (replace `<your_password>` with your chosen password):
-
-```env
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-POSTGRES_USER=petcare_admin
-POSTGRES_PASSWORD=<your_password>
-POSTGRES_DB=petcare_prod
-
-PORT=5002
-NODE_ENV=production
-```
-
-#### For Testing
-
-Create a `.env.test` file for testing:
-
-```bash
-cp .env.example .env.test
-```
-
-Edit `.env.test` to configure your test environment (replace `<your_password>` with your chosen password):
-
-```env
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5433
-POSTGRES_USER=petcare_admin
-POSTGRES_PASSWORD=<your_password>
-POSTGRES_DB=petcare_test
-
-PORT=5001
 ```
 
 ### 6. Build and Run the Application
-
-1. Ensure the initialization script is executable:
-   ```bash
-   chmod +x init-database.sh
-
-2. Use Docker Compose to build and start the services:
-
+ 
 ```bash
 docker-compose up --build
 ```
 
 ### 7. Access the Application
 
-The application will be available at `http://localhost:5002` (or the port specified in `.env.prod`).
+The application will be available at `http://localhost:5002`.
 
 ## Testing
 
@@ -151,7 +99,7 @@ The project uses a relational database to store data. The primary tables used ar
 The application exposes various RESTful API endpoints to interact with the system. Here are some key ones:
 
 - **User Endpoints**:
-  - `POST /users/register`: Register a new user (pet human or sitter).
+  - `POST /users/register`: Register a new user.
   - `POST /users/login`: Authenticate a user and issue a token.
   - `GET /users/profile`: Retrieve the profile of the logged-in user.
   - `PATCH /users`: Update user details.
@@ -163,14 +111,16 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `POST /sitters`: Create a new sitter.
   - `GET /sitters/:id`: Retrieve a sitter by id.
   - `GET /sitters/all`: List all sitters.
+  - `GET /sitters/profile`: Retrieve the profile of the logged-in sitter.
   - `PATCH /sitters`: Update sitter details.
 
 - **Booking Endpoints**:
   - `POST /bookings`: Create a new booking.
   - `GET /bookings`: List all bookings for a user.
   - `GET /bookings/:id`: Retrieve details of a specific booking.
-  - `PATCH /bookings/:id`: Update booking (exept status).
+  - `PATCH /bookings/sitter/:id`: Sitter updates booking status.
+  - `PATCH /bookings/:id`: User updates booking.
   - `DELETE /bookings`: Delete user.
 
 ## API Documentation
-The API documentation will be available through Swagger at `/api-docs` once the application is running.
+The API documentation will be available through Swagger at `http://localhost:5002/api-docs/#/` once the application is running.
