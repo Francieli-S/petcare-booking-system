@@ -30,7 +30,7 @@ npm install
 Copy the example environment file and update it with the required values:
 
 ```bash
-env $(cat .env) (or env $(cat .env.example) or env $(cat .env.prod ) ??)
+env $(cat .env.example)
 
 ```
 
@@ -99,7 +99,7 @@ The project uses a relational database to store data. The primary tables used ar
 The application exposes various RESTful API endpoints to interact with the system. Here are some key ones:
 
 - **User Endpoints**:
-  - `POST /users/register`: Register a new user (pet human or sitter).
+  - `POST /users/register`: Register a new user.
   - `POST /users/login`: Authenticate a user and issue a token.
   - `GET /users/profile`: Retrieve the profile of the logged-in user.
   - `PATCH /users`: Update user details.
@@ -111,14 +111,16 @@ The application exposes various RESTful API endpoints to interact with the syste
   - `POST /sitters`: Create a new sitter.
   - `GET /sitters/:id`: Retrieve a sitter by id.
   - `GET /sitters/all`: List all sitters.
+  - `GET /sitters/profile`: Retrieve the profile of the logged-in sitter.
   - `PATCH /sitters`: Update sitter details.
 
 - **Booking Endpoints**:
   - `POST /bookings`: Create a new booking.
   - `GET /bookings`: List all bookings for a user.
   - `GET /bookings/:id`: Retrieve details of a specific booking.
-  - `PATCH /bookings/:id`: Update booking (exept status).
+  - `PATCH /bookings/sitter/:id`: Sitter updates booking status.
+  - `PATCH /bookings/:id`: User updates booking.
   - `DELETE /bookings`: Delete user.
 
 ## API Documentation
-The API documentation will be available through Swagger at `/api-docs` once the application is running.
+The API documentation will be available through Swagger at `http://localhost:5002/api-docs/#/` once the application is running.
