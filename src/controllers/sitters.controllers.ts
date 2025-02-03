@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import {
   createSitterProfile,
-  getSitterProfile,
+  getSitterOwnProfile,
+  getOneSitter,
   getAllSitters,
   updateSitterProfile,
 } from '../services/sitter.services.js';
@@ -22,20 +23,31 @@ const createSitter = async (req: Request, res: Response) => {
   }
 };
 
-const getSitter = async (req: Request, res: Response) => {
+const getSitterProfile = async (req: Request, res: Response) => {
   const { user } = req;
   try {
-    const sitter = await getSitterProfile(req.params.id as unknown as number);
+    const sitter = await getSitterOwnProfile(user);
     res.status(200).json({ status: 'success', data: sitter });
   } catch (err) {
     const error = err as Error;
-    res
-      .status(404)
-      .json({
-        status: 'error',
-        message: error.message || 'An error occurred',
-        user,
-      });
+    res.status(404).json({
+      status: 'error',
+      message: error.message || 'An error occurred',
+    });
+  }
+};
+
+const getSitter = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const sitter = await getOneSitter(+id);
+    res.status(200).json({ status: 'success', data: sitter });
+  } catch (err) {
+    const error = err as Error;
+    res.status(404).json({
+      status: 'error',
+      message: error.message || 'An error occurred',
+    });
   }
 };
 
@@ -70,4 +82,10 @@ const updateSitter = async (req: Request, res: Response) => {
   }
 };
 
-export default { createSitter, getSitter, getSitters, updateSitter };
+export default {
+  createSitter,
+  getSitterProfile,
+  getSitter,
+  getSitters,
+  updateSitter,
+};
