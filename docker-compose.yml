@@ -28,7 +28,6 @@ services:
     environment:    
       PORT: 5002
       NODE_ENV: production
-      JWT_SECRET: "$$2y$12$hYrxrRlOFt3lGAPg2v5LnOupdSlDKict7Wy.1awUB6KVKQfbt4fjG"
    
 
 
