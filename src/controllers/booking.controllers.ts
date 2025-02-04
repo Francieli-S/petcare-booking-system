@@ -26,7 +26,7 @@ const getBooking = async (req: Request, res: Response) => {
   const { user } = req;
   const { id } = req.params;
   try {
-    const booking = await getOneBooking(+id, user.id);
+    const booking = await getOneBooking(id, user.id);
     res.status(200).json({ status: 'success', data: booking });
   } catch (err) {
     const error = err as Error;
@@ -66,7 +66,7 @@ const updateBookingByUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { service_type, number_of_days, status } = req.body;
   try {
-    const booking = await updateOneBookingByUser(+id, user.id, {
+    const booking = await updateOneBookingByUser(id, user.id, {
       service_type,
       number_of_days,
       status,
@@ -90,7 +90,7 @@ const updateBookingStatusBySitter = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { status } = req.body;
   try {
-    const booking = await updateOneBookingStatusBySitter(+id, user.id, status);
+    const booking = await updateOneBookingStatusBySitter(id, user.id, status);
     res.status(200).json({
       status: 'success',
       message: 'Booking updated successfully',
@@ -109,7 +109,7 @@ const deleteBooking = async (req: Request, res: Response) => {
   const { user } = req;
   const { id } = req.params;
   try {
-    await deleteOneBooking(+id, user.id);
+    await deleteOneBooking(id, user.id);
     res
       .status(200)
       .json({ status: 'success', message: 'Booking deleted successfully' });

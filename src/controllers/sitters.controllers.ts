@@ -40,7 +40,7 @@ const getSitterProfile = async (req: Request, res: Response) => {
 const getSitter = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const sitter = await getOneSitter(+id);
+    const sitter = await getOneSitter(id);
     res.status(200).json({ status: 'success', data: sitter });
   } catch (err) {
     const error = err as Error;

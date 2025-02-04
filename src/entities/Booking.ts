@@ -15,8 +15,8 @@ import { User } from './User.js';
 
 @Entity('bookings')
 export class Booking {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Index()
   @ManyToOne(() => Sitter, { eager: true, onDelete: 'CASCADE' })

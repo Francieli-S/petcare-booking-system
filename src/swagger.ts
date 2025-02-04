@@ -29,7 +29,7 @@ const options: swaggerJsdoc.Options = {
         User: {
           type: 'object',
           properties: {
-            id: { type: 'integer', example: 1 },
+            id: { type: 'string', example: 1 },
             first_name: { type: 'string', example: 'John' },
             last_name: { type: 'string', example: 'Doe' },
             email: {
@@ -102,7 +102,7 @@ const options: swaggerJsdoc.Options = {
         Sitter: {
           type: 'object',
           properties: {
-            id: { type: 'integer', example: 1 },
+            id: { type: 'string', example: 1 },
             user: { $ref: '#/components/schemas/User' },
             bio: { type: 'string', example: 'I love taking care of pets.' },
           },
@@ -137,9 +137,9 @@ const options: swaggerJsdoc.Options = {
         Booking: {
           type: 'object',
           properties: {
-            id: { type: 'integer', example: 1 },
-            user_id: { type: 'integer', example: 5 },
-            sitter_id: { type: 'integer', example: 10 },
+            id: { type: 'string', example: 1 },
+            user_id: { type: 'string', example: 5 },
+            sitter_id: { type: 'string', example: 10 },
             service_type: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
@@ -168,7 +168,7 @@ const options: swaggerJsdoc.Options = {
           type: 'object',
           required: ['sitter_id', 'service_type', 'number_of_days'],
           properties: {
-            sitter_id: { type: 'integer', example: 10 },
+            sitter_id: { type: 'string', example: 10 },
             service_type: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],

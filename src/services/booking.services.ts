@@ -8,7 +8,7 @@ const bookingRepo = AppDataSource.getRepository(Booking);
 const sitterRepo = AppDataSource.getRepository(Sitter);
 const userRepo = AppDataSource.getRepository(User);
 
-export const getAllBookings = async (userId: number) => {
+export const getAllBookings = async (userId: string) => {
   // while sitter do not create booking as an user
   // check if user is a sitter
   const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
@@ -26,7 +26,7 @@ export const getAllBookings = async (userId: number) => {
   });
 };
 
-export const getOneBooking = async (id: number, userId: number) => {
+export const getOneBooking = async (id: string, userId: string) => {
   // while sitter do not create booking as an user
   // check if user is a sitter
   const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
@@ -51,8 +51,8 @@ export const getOneBooking = async (id: number, userId: number) => {
 };
 
 export const createNewBooking = async (
-  userId: number,
-  sitterId: number,
+  userId: string,
+  sitterId: string,
   service_type: ServiceType,
   number_of_days: number
 ) => {
@@ -76,8 +76,8 @@ export const createNewBooking = async (
 };
 
 export const updateOneBookingByUser = async (
-  id: number,
-  userId: number,
+  id: string,
+  userId: string,
   updates: {
     service_type?: ServiceType;
     number_of_days?: number;
@@ -99,8 +99,8 @@ export const updateOneBookingByUser = async (
 };
 
 export const updateOneBookingStatusBySitter = async (
-  id: number,
-  userId: number,
+  id: string,
+  userId: string,
   status: BookingStatus
 ) => {
   const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
@@ -118,7 +118,7 @@ export const updateOneBookingStatusBySitter = async (
   return await bookingRepo.save(booking);
 };
 
-export const deleteOneBooking = async (id: number, userId: number) => {
+export const deleteOneBooking = async (id: string, userId: string) => {
   const booking = await bookingRepo.findOne({
     where: { id, user: { id: userId } },
   });

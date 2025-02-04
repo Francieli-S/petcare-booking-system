@@ -48,7 +48,7 @@ export const getUserProfile = async (user: any) => {
 };
 
 export const updateUser = async (
-  userId: number | undefined,
+  userId: string,
   updates: { first_name?: string; last_name?: string; email?: string }
 ) => {
   if (!userId) {
@@ -63,7 +63,7 @@ export const updateUser = async (
   return removeSensitiveData(updatedUser);
 };
 
-export const removeUser = async (userId: number | undefined) => {
+export const removeUser = async (userId: string) => {
   if (!userId) {
     throw { status: 400, message: 'User ID is required' };
   }
@@ -86,7 +86,7 @@ export const getUsers = async (query: any, page: number, limit: number) => {
   return users.map(removeSensitiveData);
 };
 
-export const getUserById = async (userId: number | undefined) => {
+export const getUserById = async (userId: string) => {
   if (!userId) {
     throw { status: 400, message: 'Invalid user ID' };
   }

@@ -110,7 +110,7 @@ const get = async (req: Request, res: Response) => {
 };
 
 const getById = async (req: Request, res: Response) => {
-  const userId = +req.params.id;
+  const userId = req.params.id;
   try {
     const user = await getUserById(userId);
     res.status(200).json({

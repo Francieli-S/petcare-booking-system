@@ -38,7 +38,7 @@ export const getSitterOwnProfile = async (user: User) => {
   return { ...sitter, user: result };
 };
 
-export const getOneSitter = async (id: number) => {
+export const getOneSitter = async (id: string) => {
   const sitter = await sitterRepo.findOne({
     where: { id },
     relations: ['user'],

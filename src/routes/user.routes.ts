@@ -40,7 +40,7 @@ router.get('/profile', auth, userController.profile);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The user ID
  *     responses:
  *       200:
