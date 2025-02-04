@@ -1,7 +1,7 @@
 import { AppDataSource } from '../config/database.js';
 import { Sitter } from '../entities/Sitter.js';
 import { User } from '../entities/User.js';
-import { removeSensitiveData } from '../utils/index.js';
+import { transformSitterToResponse } from '../utils/index.js';
 
 const sitterRepo = AppDataSource.getRepository(Sitter);
 
@@ -19,7 +19,7 @@ export const createSitterProfile = async (user: User, bio: string) => {
   }
   const sitter = sitterRepo.create({ user: user, bio });
   await sitterRepo.save(sitter);
-  return sitter;
+  return transformSitterToResponse(sitter);
 };
 
 export const getSitterOwnProfile = async (user: User) => {
@@ -34,8 +34,7 @@ export const getSitterOwnProfile = async (user: User) => {
   if (!sitter) {
     throw new Error('Sitter profile not found');
   }
-  const result = removeSensitiveData(sitter.user);
-  return { ...sitter, user: result };
+  return transformSitterToResponse(sitter);
 };
 
 export const getOneSitter = async (id: string) => {
@@ -46,19 +45,14 @@ export const getOneSitter = async (id: string) => {
   if (!sitter) {
     throw new Error('Sitter profile not found');
   }
-  const result = removeSensitiveData(sitter.user);
-  return { ...sitter, user: result };
+  return transformSitterToResponse(sitter);
 };
 
 export const getAllSitters = async () => {
   const sitters = await sitterRepo.find({
     relations: ['user'],
   });
-  const filteredSitters = sitters.map(({ user, ...sitter }) => ({
-    ...sitter,
-    user: removeSensitiveData(user),
-  }));
-  return filteredSitters;
+  return sitters.map(transformSitterToResponse);
 };
 
 export const updateSitterProfile = async (
@@ -78,5 +72,5 @@ export const updateSitterProfile = async (
   }
   const updatedSitter = sitterRepo.merge(sitter, updates);
   await sitterRepo.save(updatedSitter);
-  return sitter;
+  return transformSitterToResponse(sitter);
 };

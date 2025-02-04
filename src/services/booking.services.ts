@@ -3,6 +3,7 @@ import { Booking } from '../entities/Booking.js';
 import { Sitter } from '../entities/Sitter.js';
 import { User } from '../entities/User.js';
 import { BookingStatus, ServiceType } from '../entities/types.js';
+import { transformBookingToResponse } from '../utils/index.js';
 
 const bookingRepo = AppDataSource.getRepository(Booking);
 const sitterRepo = AppDataSource.getRepository(Sitter);
@@ -14,16 +15,18 @@ export const getAllBookings = async (userId: string) => {
   const sitter = await sitterRepo.findOne({ where: { user: { id: userId } } });
   if (sitter) {
     // retrive only bookings for their sitter id
-    return await bookingRepo.find({
+    const bookings = await bookingRepo.find({
       where: { sitter: { id: sitter.id } },
-      relations: ['sitter', 'user'],
+      relations: ['sitter', 'sitter.user', 'user'],
     });
+    return bookings.map(transformBookingToResponse);
   }
   // if user is not a sitter, retrive only bookings created for the user id
-  return await bookingRepo.find({
+  const bookings = await bookingRepo.find({
     where: { user: { id: userId } },
-    relations: ['sitter', 'user'],
-  });
+    relations: ['sitter', 'sitter.user', 'user'],
+  })
+  return bookings.map(transformBookingToResponse);
 };
 
 export const getOneBooking = async (id: string, userId: string) => {
@@ -35,19 +38,19 @@ export const getOneBooking = async (id: string, userId: string) => {
     // retrive only the booking for their sitter id
     booking = await bookingRepo.findOne({
       where: { id, sitter: { id: sitter.id } },
-      relations: ['sitter', 'user'],
+      relations: ['sitter', 'sitter.user', 'user'],
     });
   } else {
     // if user is not a sitter, retrive only the booking created for the user id
     booking = await bookingRepo.findOne({
       where: { id, user: { id: userId } },
-      relations: ['sitter', 'user'],
+      relations: ['sitter', 'sitter.user', 'user'],
     });
   }
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
   }
-  return booking;
+  return transformBookingToResponse(booking);
 };
 
 export const createNewBooking = async (
@@ -56,7 +59,12 @@ export const createNewBooking = async (
   service_type: ServiceType,
   number_of_days: number
 ) => {
-  const sitter = await sitterRepo.findOneBy({ id: sitterId });
+  const sitter = await sitterRepo.findOne({ 
+    where: {
+      id: sitterId,
+    },
+    relations: ['user'],
+ });
   if (!sitter) {
     throw { status: 404, message: 'Sitter not found' };
   }
@@ -72,7 +80,7 @@ export const createNewBooking = async (
     total_cost: parseFloat((number_of_days * 15).toFixed(2)),
     status: BookingStatus.PENDING,
   });
-  return await bookingRepo.save(booking);
+  return transformBookingToResponse(await bookingRepo.save(booking));
 };
 
 export const updateOneBookingByUser = async (
@@ -86,7 +94,7 @@ export const updateOneBookingByUser = async (
 ) => {
   const booking = await bookingRepo.findOne({
     where: { id, user: { id: userId } },
-    relations: ['sitter', 'user'],
+    relations: ['sitter', 'sitter.user', 'user'],
   });
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
@@ -95,7 +103,7 @@ export const updateOneBookingByUser = async (
     booking.total_cost = parseFloat((updates.number_of_days * 15).toFixed(2));
   }
   const updatedBooking = bookingRepo.merge(booking, updates);
-  return await bookingRepo.save(updatedBooking);
+  return transformBookingToResponse(await bookingRepo.save(updatedBooking));
 };
 
 export const updateOneBookingStatusBySitter = async (
@@ -109,13 +117,13 @@ export const updateOneBookingStatusBySitter = async (
   }
   const booking = await bookingRepo.findOne({
     where: { id, sitter: { id: sitter.id } },
-    relations: ['sitter', 'user'],
+    relations: ['sitter', 'sitter.user', 'user'],
   });
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
   }
   booking.status = status;
-  return await bookingRepo.save(booking);
+  return transformBookingToResponse(await bookingRepo.save(booking));
 };
 
 export const deleteOneBooking = async (id: string, userId: string) => {
@@ -127,3 +135,84 @@ export const deleteOneBooking = async (id: string, userId: string) => {
   }
   await bookingRepo.remove(booking);
 };
+
+
+
+// "data": [
+//   {
+//       "bookingId": "a8c76321-a2a0-45ed-87a7-2eacf0adf66a",
+//       "serviceType": "One visit a day",
+//       "numberOfDays": 200,
+//       "totalCost": "3000.00",
+//       "status": "Pending",
+//       "sitter": {
+//           "sitterId": "3143d12e-418a-4dc2-b155-0a9d890b88bd",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       },
+//       "user": {
+//           "userId": "bc4bcf7f-fd68-4df4-b3ab-9b1da75d76e8",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       }
+//   },
+//   {
+//       "bookingId": "388c4602-8e43-4c8d-8928-07c5bacba362",
+//       "serviceType": "One visit a day",
+//       "numberOfDays": 200,
+//       "totalCost": "3000.00",
+//       "status": "Pending",
+//       "sitter": {
+//           "sitterId": "3143d12e-418a-4dc2-b155-0a9d890b88bd",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       },
+//       "user": {
+//           "userId": "bc4bcf7f-fd68-4df4-b3ab-9b1da75d76e8",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       }
+//   },
+//   {
+//       "bookingId": "93866180-d56d-40d4-ba9e-3cbde512491f",
+//       "serviceType": "One visit a day",
+//       "numberOfDays": 200,
+//       "totalCost": "3000.00",
+//       "status": "Pending",
+//       "sitter": {
+//           "sitterId": "3143d12e-418a-4dc2-b155-0a9d890b88bd",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       },
+//       "user": {
+//           "userId": "bc4bcf7f-fd68-4df4-b3ab-9b1da75d76e8",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       }
+//   },
+//   {
+//       "bookingId": "575ae5dc-18d4-4e3d-84ff-ceba8f05cafa",
+//       "serviceType": "One visit a day",
+//       "numberOfDays": 200,
+//       "totalCost": "3000.00",
+//       "status": "Pending",
+//       "sitter": {
+//           "sitterId": "3143d12e-418a-4dc2-b155-0a9d890b88bd",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       },
+//       "user": {
+//           "userId": "bc4bcf7f-fd68-4df4-b3ab-9b1da75d76e8",
+//           "firstName": "Franci",
+//           "lastName": "FR",
+//           "email": "franci@gmail.com"
+//       }
+//   }
+// ]

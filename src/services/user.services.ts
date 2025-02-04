@@ -2,7 +2,7 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../entities/User.js';
 import { AppDataSource } from '../config/database.js';
-import { queryParser, removeSensitiveData } from '../utils/index.js';
+import { queryParser, transformUserToResponse } from '../utils/index.js';
 import { configs } from '../config/env.js';
 
 const userRepo = AppDataSource.getRepository(User);
@@ -44,7 +44,7 @@ export const getUserProfile = async (user: any) => {
   if (!user) {
     throw { status: 404, message: 'User not found' };
   }
-  return removeSensitiveData(user);
+  return transformUserToResponse(user);
 };
 
 export const updateUser = async (
@@ -60,17 +60,14 @@ export const updateUser = async (
   }
   const updatedUser = userRepo.merge(existingUser, updates);
   await userRepo.save(updatedUser);
-  return removeSensitiveData(updatedUser);
+  return transformUserToResponse(updatedUser);
 };
 
 export const removeUser = async (userId: string) => {
   if (!userId) {
     throw { status: 400, message: 'User ID is required' };
   }
-  const result = await userRepo.delete(userId);
-  if (result.affected === 0) {
-    throw { status: 404, message: 'User not found' };
-  }
+  await userRepo.delete(userId);
 };
 
 export const getUsers = async (query: any, page: number, limit: number) => {
@@ -83,7 +80,7 @@ export const getUsers = async (query: any, page: number, limit: number) => {
   if (!users.length) {
     throw { status: 404, message: 'No users found' };
   }
-  return users.map(removeSensitiveData);
+  return users.map(transformUserToResponse);
 };
 
 export const getUserById = async (userId: string) => {
@@ -94,5 +91,5 @@ export const getUserById = async (userId: string) => {
   if (!user) {
     throw { status: 404, message: 'User not found' };
   }
-  return removeSensitiveData(user);
+  return transformUserToResponse(user);
 };
