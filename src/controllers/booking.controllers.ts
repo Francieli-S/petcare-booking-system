@@ -12,7 +12,9 @@ const getBookings = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     const bookings = await getAllBookings(user.id);
-    res.status(200).json({ data: bookings });
+    res
+      .status(200)
+      .json({ message: 'Bookings retrieved successfully', bookings });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -27,7 +29,9 @@ const getBooking = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const booking = await getOneBooking(id, user.id);
-    res.status(200).json({ data: booking });
+    res
+      .status(200)
+      .json({ message: 'Booking retrieved successfully', booking });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -49,7 +53,7 @@ const createBooking = async (req: Request, res: Response) => {
     );
     res.status(201).json({
       message: 'Booking created successfully',
-      data: booking,
+      booking,
     });
   } catch (err) {
     const error = err as Error;
@@ -72,7 +76,7 @@ const updateBookingByUser = async (req: Request, res: Response) => {
     });
     res.status(200).json({
       message: 'Booking updated successfully',
-      data: booking,
+      booking,
     });
   } catch (err) {
     const error = err as Error;
@@ -91,7 +95,7 @@ const updateBookingStatusBySitter = async (req: Request, res: Response) => {
     const booking = await updateOneBookingStatusBySitter(id, user.id, status);
     res.status(200).json({
       message: 'Booking updated successfully',
-      data: booking,
+      booking,
     });
   } catch (err) {
     const error = err as Error;
@@ -107,9 +111,7 @@ const deleteBooking = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     await deleteOneBooking(id, user.id);
-    res
-      .status(200)
-      .json({ message: 'Booking deleted successfully' });
+    res.status(200).json({ message: 'Booking deleted successfully' });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({

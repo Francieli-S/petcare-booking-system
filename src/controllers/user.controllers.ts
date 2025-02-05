@@ -13,9 +13,7 @@ const register = async (req: Request, res: Response) => {
   const { first_name, last_name, email, password } = req.body;
   try {
     await registerUser(first_name, last_name, email, password);
-    res
-      .status(201)
-      .json({ message: 'User registered successfully' });
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
     const error = err as Error;
     res
@@ -30,7 +28,7 @@ const login = async (req: Request, res: Response) => {
     const token = await loginUser(email, password);
     res.status(200).json({
       message: 'User logged in successfully',
-      data: token,
+      token,
     });
   } catch (err) {
     const error = err as Error;
@@ -44,7 +42,7 @@ const profile = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     const userData = await getUserProfile(user);
-    res.status(200).json({ data: userData });
+    res.status(200).json({ userData });
   } catch (err) {
     const error = err as Error;
     res
@@ -64,7 +62,7 @@ const update = async (req: Request, res: Response) => {
     });
     res.status(200).json({
       message: 'User updated successfully',
-      data: updatedUser,
+      updatedUser,
     });
   } catch (err) {
     const error = err as Error;
@@ -78,9 +76,7 @@ const remove = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     await removeUser(user?.id);
-    res
-      .status(200)
-      .json({ message: 'User deleted successfully' });
+    res.status(200).json({ message: 'User deleted successfully' });
   } catch (err) {
     const error = err as Error;
     res
@@ -95,8 +91,8 @@ const get = async (req: Request, res: Response) => {
   try {
     const users = await getUsers(req.query, page, limit);
     res.status(200).json({
-      data: users,
       message: 'Users retrieved successfully',
+      users,
     });
   } catch (err) {
     const error = err as Error;
@@ -112,7 +108,7 @@ const getById = async (req: Request, res: Response) => {
     const user = await getUserById(userId);
     res.status(200).json({
       message: 'User retrieved successfully',
-      data: user,
+      user,
     });
   } catch (err) {
     const error = err as Error;
