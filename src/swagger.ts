@@ -30,8 +30,8 @@ const options: swaggerJsdoc.Options = {
           type: 'object',
           properties: {
             id: { type: 'string', example: 1 },
-            first_name: { type: 'string', example: 'John' },
-            last_name: { type: 'string', example: 'Doe' },
+            firstName: { type: 'string', example: 'John' },
+            lastName: { type: 'string', example: 'Doe' },
             email: {
               type: 'string',
               format: 'email',
@@ -41,10 +41,10 @@ const options: swaggerJsdoc.Options = {
         },
         RegisterUser: {
           type: 'object',
-          required: ['first_name', 'last_name', 'email', 'password'],
+          required: ['firstName', 'lastName', 'email', 'password'],
           properties: {
-            first_name: { type: 'string', description: "User's first name" },
-            last_name: { type: 'string', description: "User's last name" },
+            firstName: { type: 'string', description: "User's first name" },
+            lastName: { type: 'string', description: "User's last name" },
             email: {
               type: 'string',
               format: 'email',
@@ -76,8 +76,8 @@ const options: swaggerJsdoc.Options = {
         UpdateUser: {
           type: 'object',
           properties: {
-            first_name: { type: 'string', description: "User's first name" },
-            last_name: { type: 'string', description: "User's last name" },
+            firstName: { type: 'string', description: "User's first name" },
+            lastName: { type: 'string', description: "User's last name" },
             email: {
               type: 'string',
               format: 'email',
@@ -140,24 +140,24 @@ const options: swaggerJsdoc.Options = {
             id: { type: 'string', example: 1 },
             user_id: { type: 'string', example: 5 },
             sitter_id: { type: 'string', example: 10 },
-            service_type: {
+            serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
               example: 'One visit a day',
             },
-            number_of_days: { type: 'integer', example: 3 },
-            total_cost: { type: 'number', format: 'float', example: 45.0 },
+            numberOfDays: { type: 'integer', example: 3 },
+            totalCost: { type: 'number', format: 'float', example: 45.0 },
             status: {
               type: 'string',
               enum: ['Pending', 'Accepted', 'Completed', 'Canceled'],
               example: 'Pending',
             },
-            created_at: {
+            createdAt: {
               type: 'string',
               format: 'date-time',
               example: '2024-01-29T12:45:30.000Z',
             },
-            updated_at: {
+            updatedAt: {
               type: 'string',
               format: 'date-time',
               example: '2024-01-29T14:20:10.000Z',
@@ -166,15 +166,15 @@ const options: swaggerJsdoc.Options = {
         },
         CreateBooking: {
           type: 'object',
-          required: ['sitter_id', 'service_type', 'number_of_days'],
+          required: ['sitter_id', 'serviceType', 'numberOfDays'],
           properties: {
             sitter_id: { type: 'string', example: 10 },
-            service_type: {
+            serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
               example: 'One visit a day',
             },
-            number_of_days: { type: 'integer', example: 5 },
+            numberOfDays: { type: 'integer', example: 5 },
           },
         },
         UpdateBookingBySitter: {
@@ -191,12 +191,12 @@ const options: swaggerJsdoc.Options = {
         UpdateBookingByUser: {
           type: 'object',
           properties: {
-            service_type: {
+            serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
               example: 'One visit a day',
             },
-            number_of_days: { type: 'integer', example: 2 },
+            numberOfDays: { type: 'integer', example: 2 },
             status: {
               type: 'string',
               enum: ['Canceled'],

@@ -27,29 +27,29 @@ export class Booking {
   user!: User;
 
   @Column({ type: 'enum', enum: ServiceType })
-  service_type!: ServiceType;
+  serviceType!: ServiceType;
 
   @Column({ type: 'int', unsigned: true })
-  number_of_days!: number;
+  numberOfDays!: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  total_cost!: number;
+  totalCost!: number;
 
   @Column({ type: 'enum', enum: BookingStatus, default: BookingStatus.PENDING })
   status!: BookingStatus;
 
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updated_at!: Date;
+  updatedAt!: Date;
 
   @Column({ type: 'timestamp', nullable: true })
-  confirmed_at!: Date | null;
+  confirmedAt!: Date | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  canceled_at!: Date | null;
+  canceledAt!: Date | null;
 
   @DeleteDateColumn()
-  deleted_at!: Date | null;
+  deletedAt!: Date | null;
 }

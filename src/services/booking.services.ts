@@ -56,8 +56,8 @@ export const getOneBooking = async (id: string, userId: string) => {
 export const createNewBooking = async (
   userId: string,
   sitterId: string,
-  service_type: ServiceType,
-  number_of_days: number
+  serviceType: ServiceType,
+  numberOfDays: number
 ) => {
   const sitter = await sitterRepo.findOne({ 
     where: {
@@ -75,9 +75,9 @@ export const createNewBooking = async (
   const booking = bookingRepo.create({
     user,
     sitter,
-    service_type,
-    number_of_days,
-    total_cost: parseFloat((number_of_days * 15).toFixed(2)),
+    serviceType,
+    numberOfDays,
+    totalCost: parseFloat((numberOfDays * 15).toFixed(2)),
     status: BookingStatus.PENDING,
   });
   return transformBookingToResponse(await bookingRepo.save(booking));
@@ -87,8 +87,8 @@ export const updateOneBookingByUser = async (
   id: string,
   userId: string,
   updates: {
-    service_type?: ServiceType;
-    number_of_days?: number;
+    serviceType?: ServiceType;
+    numberOfDays?: number;
     status?: BookingStatus;
   }
 ) => {
@@ -99,8 +99,8 @@ export const updateOneBookingByUser = async (
   if (!booking) {
     throw { status: 404, message: 'Booking not found' };
   }
-  if (updates.number_of_days) {
-    booking.total_cost = parseFloat((updates.number_of_days * 15).toFixed(2));
+  if (updates.numberOfDays) {
+    booking.totalCost = parseFloat((updates.numberOfDays * 15).toFixed(2));
   }
   const updatedBooking = bookingRepo.merge(booking, updates);
   return transformBookingToResponse(await bookingRepo.save(updatedBooking));

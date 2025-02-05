@@ -7,7 +7,7 @@ const createBooking = {
       'string.base': 'Sitter ID must be a string',
       'any.required': 'Sitter ID is required',
     }),
-    service_type: Joi.string()
+    serviceType: Joi.string()
       .valid(...Object.values(ServiceType))
       .required()
       .messages({
@@ -17,7 +17,7 @@ const createBooking = {
         ).join(', ')}`,
         'any.required': 'Service type is required',
       }),
-    number_of_days: Joi.number().integer().positive().required().messages({
+    numberOfDays: Joi.number().integer().positive().required().messages({
       'number.base': 'Number of days must be a number',
       'number.integer': 'Number of days must be an integer',
       'number.positive': 'Number of days must be a positive number',
@@ -34,7 +34,7 @@ const updateBookingByUser = {
     }),
   }),
   body: Joi.object({
-    service_type: Joi.string()
+    serviceType: Joi.string()
       .valid(...Object.values(ServiceType))
       .messages({
         'string.base': 'Service type must be a string',
@@ -42,7 +42,7 @@ const updateBookingByUser = {
           ServiceType
         ).join(', ')}`,
       }),
-    number_of_days: Joi.number().integer().positive().messages({
+    numberOfDays: Joi.number().integer().positive().messages({
       'number.base': 'Number of days must be a number',
       'number.integer': 'Number of days must be an integer',
       'number.positive': 'Number of days must be a positive number',

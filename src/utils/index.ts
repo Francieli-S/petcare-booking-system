@@ -25,9 +25,9 @@ export const transformBookingToResponse = (booking: Booking) => {
 
   return {
     bookingId: booking.id,
-    serviceType: booking.service_type,
-    numberOfDays: booking.number_of_days,
-    totalCost: booking.total_cost,
+    serviceType: booking.serviceType,
+    numberOfDays: booking.numberOfDays,
+    totalCost: booking.totalCost,
     status: booking.status,
     sitter,
     user
@@ -49,8 +49,8 @@ export const transformSitterToResponse = (sitter: Sitter) => {
 export const transformUserToResponse = (user: User) => {
   return user ? {
     userId: user.id,
-    firstName: user.first_name,
-    lastName: user.last_name,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email
   } : {}
 };

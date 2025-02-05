@@ -8,8 +8,8 @@ import { configs } from '../config/env.js';
 const userRepo = AppDataSource.getRepository(User);
 
 export const registerUser = async (
-  first_name: string,
-  last_name: string,
+  firstName: string,
+  lastName: string,
   email: string,
   password: string
 ) => {
@@ -19,8 +19,8 @@ export const registerUser = async (
   }
   const hashedPassword = await bcryptjs.hash(password, 10);
   const newUser = userRepo.create({
-    first_name,
-    last_name,
+    firstName,
+    lastName,
     email,
     password: hashedPassword,
   });
@@ -50,7 +50,7 @@ export const getUserProfile = async (user: any) => {
 
 export const updateUser = async (
   userId: string,
-  updates: { first_name?: string; last_name?: string; email?: string }
+  updates: { firstName?: string; lastName?: string; email?: string }
 ) => {
   if (!userId) {
     throw { status: 400, message: 'User ID is required' };

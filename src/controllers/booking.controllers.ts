@@ -38,14 +38,14 @@ const getBooking = async (req: Request, res: Response) => {
 };
 
 const createBooking = async (req: Request, res: Response) => {
-  const { sitter_id, service_type, number_of_days } = req.body;
+  const { sitter_id, serviceType, numberOfDays } = req.body;
   const { user } = req;
   try {
     const booking = await createNewBooking(
       user.id,
       sitter_id,
-      service_type,
-      number_of_days
+      serviceType,
+      numberOfDays
     );
     res.status(201).json({ booking });
   } catch (err) {
@@ -60,11 +60,11 @@ const createBooking = async (req: Request, res: Response) => {
 const updateBookingByUser = async (req: Request, res: Response) => {
   const { user } = req;
   const { id } = req.params;
-  const { service_type, number_of_days, status } = req.body;
+  const { serviceType, numberOfDays, status } = req.body;
   try {
     const booking = await updateOneBookingByUser(id, user.id, {
-      service_type,
-      number_of_days,
+      serviceType,
+      numberOfDays,
       status,
     });
     res.status(200).json({ booking });
