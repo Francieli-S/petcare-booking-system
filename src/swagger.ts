@@ -102,9 +102,17 @@ const options: swaggerJsdoc.Options = {
         Sitter: {
           type: 'object',
           properties: {
-            id: { type: 'string', example: 1 },
-            user: { $ref: '#/components/schemas/User' },
-            bio: { type: 'string', example: 'I love taking care of pets.' },
+            sitter: {
+              sitterId: {
+                type: 'string',
+                example: 'bcf2f6f4-8c23-4a0d-abfb-5fbde474ca94',
+              },
+              bio: { type: 'string', example: 'I love taking care of pets.' },
+              rating: { type: 'number', example: 0 },
+              firstName: { type: 'string', example: 'string' },
+              lastName: { type: 'string', example: 'string' },
+              email: { type: 'string', example: 'string@example.com' },
+            },
           },
         },
         ErrorSitterResponse: {
@@ -137,30 +145,45 @@ const options: swaggerJsdoc.Options = {
         Booking: {
           type: 'object',
           properties: {
-            id: { type: 'string', example: 1 },
-            userId: { type: 'string', example: 5 },
-            sitterId: { type: 'string', example: 10 },
-            serviceType: {
-              type: 'string',
-              enum: ['One visit a day', 'House sitting', 'Dog walking'],
-              example: 'One visit a day',
-            },
-            numberOfDays: { type: 'integer', example: 3 },
-            totalCost: { type: 'number', format: 'float', example: 45.0 },
-            status: {
-              type: 'string',
-              enum: ['Pending', 'Accepted', 'Completed', 'Canceled'],
-              example: 'Pending',
-            },
-            createdAt: {
-              type: 'string',
-              format: 'date-time',
-              example: '2024-01-29T12:45:30.000Z',
-            },
-            updatedAt: {
-              type: 'string',
-              format: 'date-time',
-              example: '2024-01-29T14:20:10.000Z',
+            bokings: {
+              bookingId: {
+                type: 'string',
+                example: 'eda90b9b-ed20-441a-b892-6fe126ee99ed',
+              },
+              serviceType: {
+                type: 'string',
+                enum: ['One visit a day', 'House sitting', 'Dog walking'],
+                example: 'One visit a day',
+              },
+              numberOfDays: { type: 'integer', example: 3 },
+              totalCost: { type: 'number', format: 'float', example: 45.0 },
+              status: {
+                type: 'string',
+                enum: ['Pending', 'Accepted', 'Completed', 'Canceled'],
+                example: 'Pending',
+              },
+              sitter: {
+                sitterId: {
+                  type: 'string',
+                  example: 'bcf2f6f4-8c23-4a0d-abfb-5fbde474ca94',
+                },
+                firstName: { type: 'string', example: 'string' },
+                lastName: { type: 'string', example: 'string' },
+                email: { type: 'string', example: 'string@example.com' },
+              },
+              user: {
+                userId: {
+                  type: 'string',
+                  example: 'ac1be007-2981-4a08-9cfe-3381973f6f9b',
+                },
+                firstName: { type: 'string', example: 'string' },
+                lastName: { type: 'string', example: 'string' },
+                email: {
+                  type: 'string',
+                  format: 'email',
+                  example: 'user@example.com',
+                },
+              },
             },
           },
         },
