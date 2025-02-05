@@ -77,7 +77,7 @@ export const createNewBooking = async (
     sitter,
     serviceType,
     numberOfDays,
-    totalCost: parseFloat((numberOfDays * 15).toFixed(2)),
+    totalCost: numberOfDays * 15.99,
     status: BookingStatus.PENDING,
   });
   return transformBookingToResponse(await bookingRepo.save(booking));

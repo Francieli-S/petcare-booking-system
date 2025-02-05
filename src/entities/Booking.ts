@@ -32,7 +32,10 @@ export class Booking {
   @Column({ type: 'int', unsigned: true })
   numberOfDays!: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, transformer: {
+    to: (value: number) => value,
+    from: (value: string) => Number(parseFloat(value).toFixed(2)),
+  } })
   totalCost!: number;
 
   @Column({ type: 'enum', enum: BookingStatus, default: BookingStatus.PENDING })
