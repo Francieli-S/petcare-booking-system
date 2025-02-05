@@ -25,6 +25,7 @@ export const registerUser = async (
     password: hashedPassword,
   });
   await userRepo.save(newUser);
+  return transformUserToResponse(newUser)
 };
 
 export const loginUser = async (email: string, password: string) => {
