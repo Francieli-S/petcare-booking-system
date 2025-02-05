@@ -15,7 +15,7 @@ const register = async (req: Request, res: Response) => {
     await registerUser(first_name, last_name, email, password);
     res
       .status(201)
-      .json({ status: 'success', message: 'User registered successfully' });
+      .json({ message: 'User registered successfully' });
   } catch (err) {
     const error = err as Error;
     res
@@ -29,7 +29,6 @@ const login = async (req: Request, res: Response) => {
   try {
     const token = await loginUser(email, password);
     res.status(200).json({
-      status: 'success',
       message: 'User logged in successfully',
       data: token,
     });
@@ -45,7 +44,7 @@ const profile = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     const userData = await getUserProfile(user);
-    res.status(200).json({ status: 'success', data: userData });
+    res.status(200).json({ data: userData });
   } catch (err) {
     const error = err as Error;
     res
@@ -64,7 +63,6 @@ const update = async (req: Request, res: Response) => {
       email,
     });
     res.status(200).json({
-      status: 'success',
       message: 'User updated successfully',
       data: updatedUser,
     });
@@ -82,7 +80,7 @@ const remove = async (req: Request, res: Response) => {
     await removeUser(user?.id);
     res
       .status(200)
-      .json({ status: 'success', message: 'User deleted successfully' });
+      .json({ message: 'User deleted successfully' });
   } catch (err) {
     const error = err as Error;
     res
@@ -97,7 +95,6 @@ const get = async (req: Request, res: Response) => {
   try {
     const users = await getUsers(req.query, page, limit);
     res.status(200).json({
-      status: 'success',
       data: users,
       message: 'Users retrieved successfully',
     });
@@ -114,7 +111,6 @@ const getById = async (req: Request, res: Response) => {
   try {
     const user = await getUserById(userId);
     res.status(200).json({
-      status: 'success',
       message: 'User retrieved successfully',
       data: user,
     });
