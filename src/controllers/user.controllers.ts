@@ -12,8 +12,8 @@ import {
 const register = async (req: Request, res: Response) => {
   const { first_name, last_name, email, password } = req.body;
   try {
-    await registerUser(first_name, last_name, email, password);
-    res.status(201).json({ message: 'User registered successfully' });
+    const user = await registerUser(first_name, last_name, email, password);
+    res.status(201).json({ user });
   } catch (err) {
     const error = err as Error;
     res
@@ -26,10 +26,7 @@ const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const token = await loginUser(email, password);
-    res.status(200).json({
-      message: 'User logged in successfully',
-      token,
-    });
+    res.status(200).json({ token });
   } catch (err) {
     const error = err as Error;
     res
@@ -42,7 +39,7 @@ const profile = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     const userData = await getUserProfile(user);
-    res.status(200).json({ userData });
+    res.status(200).json({ user: userData });
   } catch (err) {
     const error = err as Error;
     res
@@ -60,10 +57,7 @@ const update = async (req: Request, res: Response) => {
       last_name,
       email,
     });
-    res.status(200).json({
-      message: 'User updated successfully',
-      updatedUser,
-    });
+    res.status(200).json({ updatedUser });
   } catch (err) {
     const error = err as Error;
     res
@@ -90,10 +84,7 @@ const get = async (req: Request, res: Response) => {
   const limit = Number(req.query.limit) || 10;
   try {
     const users = await getUsers(req.query, page, limit);
-    res.status(200).json({
-      message: 'Users retrieved successfully',
-      users,
-    });
+    res.status(200).json({ users });
   } catch (err) {
     const error = err as Error;
     res
@@ -106,10 +97,7 @@ const getById = async (req: Request, res: Response) => {
   const userId = req.params.id;
   try {
     const user = await getUserById(userId);
-    res.status(200).json({
-      message: 'User retrieved successfully',
-      user,
-    });
+    res.status(200).json({ user });
   } catch (err) {
     const error = err as Error;
     res

@@ -12,7 +12,7 @@ const createSitter = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     const sitter = await createSitterProfile(user, bio);
-    res.status(201).json({ message: 'Sitter profile created', sitter });
+    res.status(201).json({ sitter });
   } catch (err) {
     const error = err as Error;
     res
@@ -39,7 +39,7 @@ const getSitter = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const sitter = await getOneSitter(id);
-    res.status(200).json({ message: 'Sitter retrieved successfully', sitter });
+    res.status(200).json({ sitter });
   } catch (err) {
     const error = err as Error;
     res.status(404).json({
@@ -52,9 +52,7 @@ const getSitter = async (req: Request, res: Response) => {
 const getSitters = async (req: Request, res: Response) => {
   try {
     const sitters = await getAllSitters();
-    res
-      .status(200)
-      .json({ message: 'Sitters retrieved successfully', sitters });
+    res.status(200).json({ sitters });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -69,10 +67,7 @@ const updateSitter = async (req: Request, res: Response) => {
   const updates = req.body;
   try {
     const sitter = await updateSitterProfile(user, updates);
-    res.status(200).json({
-      message: 'Sitter profile updated',
-      sitter,
-    });
+    res.status(200).json({ sitter });
   } catch (err) {
     const error = err as Error;
     res

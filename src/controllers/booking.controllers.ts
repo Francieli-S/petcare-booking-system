@@ -12,9 +12,7 @@ const getBookings = async (req: Request, res: Response) => {
   const { user } = req;
   try {
     const bookings = await getAllBookings(user.id);
-    res
-      .status(200)
-      .json({ message: 'Bookings retrieved successfully', bookings });
+    res.status(200).json({ bookings });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -29,9 +27,7 @@ const getBooking = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const booking = await getOneBooking(id, user.id);
-    res
-      .status(200)
-      .json({ message: 'Booking retrieved successfully', booking });
+    res.status(200).json({ booking });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -51,10 +47,7 @@ const createBooking = async (req: Request, res: Response) => {
       service_type,
       number_of_days
     );
-    res.status(201).json({
-      message: 'Booking created successfully',
-      booking,
-    });
+    res.status(201).json({ booking });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -74,10 +67,7 @@ const updateBookingByUser = async (req: Request, res: Response) => {
       number_of_days,
       status,
     });
-    res.status(200).json({
-      message: 'Booking updated successfully',
-      booking,
-    });
+    res.status(200).json({ booking });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
@@ -93,10 +83,7 @@ const updateBookingStatusBySitter = async (req: Request, res: Response) => {
   const { status } = req.body;
   try {
     const booking = await updateOneBookingStatusBySitter(id, user.id, status);
-    res.status(200).json({
-      message: 'Booking updated successfully',
-      booking,
-    });
+    res.status(200).json({ booking });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
