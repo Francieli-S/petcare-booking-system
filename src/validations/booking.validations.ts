@@ -3,7 +3,7 @@ import { ServiceType, BookingStatus } from '../entities/types.js';
 
 const createBooking = {
   body: Joi.object({
-    sitter_id: Joi.string().required().messages({
+    sitterId: Joi.string().required().messages({
       'string.base': 'Sitter ID must be a string',
       'any.required': 'Sitter ID is required',
     }),

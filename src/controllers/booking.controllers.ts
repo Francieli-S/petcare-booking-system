@@ -38,12 +38,12 @@ const getBooking = async (req: Request, res: Response) => {
 };
 
 const createBooking = async (req: Request, res: Response) => {
-  const { sitter_id, serviceType, numberOfDays } = req.body;
+  const { sitterId, serviceType, numberOfDays } = req.body;
   const { user } = req;
   try {
     const booking = await createNewBooking(
       user.id,
-      sitter_id,
+      sitterId,
       serviceType,
       numberOfDays
     );

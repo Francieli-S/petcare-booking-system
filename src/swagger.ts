@@ -138,8 +138,8 @@ const options: swaggerJsdoc.Options = {
           type: 'object',
           properties: {
             id: { type: 'string', example: 1 },
-            user_id: { type: 'string', example: 5 },
-            sitter_id: { type: 'string', example: 10 },
+            userId: { type: 'string', example: 5 },
+            sitterId: { type: 'string', example: 10 },
             serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
@@ -166,9 +166,9 @@ const options: swaggerJsdoc.Options = {
         },
         CreateBooking: {
           type: 'object',
-          required: ['sitter_id', 'serviceType', 'numberOfDays'],
+          required: ['sitterId', 'serviceType', 'numberOfDays'],
           properties: {
-            sitter_id: { type: 'string', example: 10 },
+            sitterId: { type: 'string', example: 10 },
             serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
