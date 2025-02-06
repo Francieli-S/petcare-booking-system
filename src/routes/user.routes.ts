@@ -15,7 +15,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/users/profile:
+ * /users/profile:
  *   get:
  *     summary: Get the authenticated user's profile
  *     tags: [Users]
@@ -31,7 +31,7 @@ router.get('/profile', auth, userController.profile);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   get:
  *     summary: Get user by ID
  *     tags: [Users]
@@ -40,7 +40,7 @@ router.get('/profile', auth, userController.profile);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The user ID
  *     responses:
  *       200:
@@ -52,7 +52,7 @@ router.get('/:id', userController.getById);
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   get:
  *     summary: Get all users
  *     tags: [Users]
@@ -64,7 +64,7 @@ router.get('/', userController.get);
 
 /**
  * @swagger
- * /api/users/register:
+ * /users/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Users]
@@ -88,7 +88,7 @@ router.post(
 
 /**
  * @swagger
- * /api/users/login:
+ * /users/login:
  *   post:
  *     summary: Authenticate a user
  *     tags: [Users]
@@ -112,7 +112,7 @@ router.post(
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   patch:
  *     summary: Update user profile
  *     tags: [Users]
@@ -141,7 +141,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   delete:
  *     summary: Delete user account
  *     tags: [Users]
@@ -156,5 +156,3 @@ router.patch(
 router.delete('/', auth, userController.remove);
 
 export default router;
-
-

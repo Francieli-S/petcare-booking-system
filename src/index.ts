@@ -1,10 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import { AppDataSource } from './config/database.js';
 import routers from '../src/routes/index.js';
 import { configs } from './config/env.js';
 import { setupSwagger } from './swagger.js';
 
 const app = express();
+
+app.use(cors()); // Allows all origins
+
 app.use(express.json());
 setupSwagger(app) // place swagger before mounting routes! So middlewares will not block access and affect swagger ui
 app.use('/api', routers);

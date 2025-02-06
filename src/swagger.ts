@@ -13,7 +13,7 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: `http://localhost:${configs.PORT}`,
+        url: `http://localhost:${configs.PORT}/api`,
         description: 'Local server',
       },
     ],
@@ -29,9 +29,9 @@ const options: swaggerJsdoc.Options = {
         User: {
           type: 'object',
           properties: {
-            id: { type: 'integer', example: 1 },
-            first_name: { type: 'string', example: 'John' },
-            last_name: { type: 'string', example: 'Doe' },
+            id: { type: 'string', example: 1 },
+            firstName: { type: 'string', example: 'John' },
+            lastName: { type: 'string', example: 'Doe' },
             email: {
               type: 'string',
               format: 'email',
@@ -41,10 +41,10 @@ const options: swaggerJsdoc.Options = {
         },
         RegisterUser: {
           type: 'object',
-          required: ['first_name', 'last_name', 'email', 'password'],
+          required: ['firstName', 'lastName', 'email', 'password'],
           properties: {
-            first_name: { type: 'string', description: "User's first name" },
-            last_name: { type: 'string', description: "User's last name" },
+            firstName: { type: 'string', description: "User's first name" },
+            lastName: { type: 'string', description: "User's last name" },
             email: {
               type: 'string',
               format: 'email',
@@ -76,8 +76,8 @@ const options: swaggerJsdoc.Options = {
         UpdateUser: {
           type: 'object',
           properties: {
-            first_name: { type: 'string', description: "User's first name" },
-            last_name: { type: 'string', description: "User's last name" },
+            firstName: { type: 'string', description: "User's first name" },
+            lastName: { type: 'string', description: "User's last name" },
             email: {
               type: 'string',
               format: 'email',
@@ -102,9 +102,17 @@ const options: swaggerJsdoc.Options = {
         Sitter: {
           type: 'object',
           properties: {
-            id: { type: 'integer', example: 1 },
-            user: { $ref: '#/components/schemas/User' },
-            bio: { type: 'string', example: 'I love taking care of pets.' },
+            sitter: {
+              sitterId: {
+                type: 'string',
+                example: 'bcf2f6f4-8c23-4a0d-abfb-5fbde474ca94',
+              },
+              bio: { type: 'string', example: 'I love taking care of pets.' },
+              rating: { type: 'number', example: 0 },
+              firstName: { type: 'string', example: 'string' },
+              lastName: { type: 'string', example: 'string' },
+              email: { type: 'string', example: 'string@example.com' },
+            },
           },
         },
         ErrorSitterResponse: {
@@ -137,44 +145,59 @@ const options: swaggerJsdoc.Options = {
         Booking: {
           type: 'object',
           properties: {
-            id: { type: 'integer', example: 1 },
-            user_id: { type: 'integer', example: 5 },
-            sitter_id: { type: 'integer', example: 10 },
-            service_type: {
-              type: 'string',
-              enum: ['One visit a day', 'House sitting', 'Dog walking'],
-              example: 'One visit a day',
-            },
-            number_of_days: { type: 'integer', example: 3 },
-            total_cost: { type: 'number', format: 'float', example: 45.0 },
-            status: {
-              type: 'string',
-              enum: ['Pending', 'Accepted', 'Completed', 'Canceled'],
-              example: 'Pending',
-            },
-            created_at: {
-              type: 'string',
-              format: 'date-time',
-              example: '2024-01-29T12:45:30.000Z',
-            },
-            updated_at: {
-              type: 'string',
-              format: 'date-time',
-              example: '2024-01-29T14:20:10.000Z',
+            bokings: {
+              bookingId: {
+                type: 'string',
+                example: 'eda90b9b-ed20-441a-b892-6fe126ee99ed',
+              },
+              serviceType: {
+                type: 'string',
+                enum: ['One visit a day', 'House sitting', 'Dog walking'],
+                example: 'One visit a day',
+              },
+              numberOfDays: { type: 'integer', example: 3 },
+              totalCost: { type: 'number', format: 'float', example: 45.0 },
+              status: {
+                type: 'string',
+                enum: ['Pending', 'Accepted', 'Completed', 'Canceled'],
+                example: 'Pending',
+              },
+              sitter: {
+                sitterId: {
+                  type: 'string',
+                  example: 'bcf2f6f4-8c23-4a0d-abfb-5fbde474ca94',
+                },
+                firstName: { type: 'string', example: 'string' },
+                lastName: { type: 'string', example: 'string' },
+                email: { type: 'string', example: 'string@example.com' },
+              },
+              user: {
+                userId: {
+                  type: 'string',
+                  example: 'ac1be007-2981-4a08-9cfe-3381973f6f9b',
+                },
+                firstName: { type: 'string', example: 'string' },
+                lastName: { type: 'string', example: 'string' },
+                email: {
+                  type: 'string',
+                  format: 'email',
+                  example: 'user@example.com',
+                },
+              },
             },
           },
         },
         CreateBooking: {
           type: 'object',
-          required: ['sitter_id', 'service_type', 'number_of_days'],
+          required: ['sitterId', 'serviceType', 'numberOfDays'],
           properties: {
-            sitter_id: { type: 'integer', example: 10 },
-            service_type: {
+            sitterId: { type: 'string', example: 10 },
+            serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
               example: 'One visit a day',
             },
-            number_of_days: { type: 'integer', example: 5 },
+            numberOfDays: { type: 'integer', example: 5 },
           },
         },
         UpdateBookingBySitter: {
@@ -191,12 +214,12 @@ const options: swaggerJsdoc.Options = {
         UpdateBookingByUser: {
           type: 'object',
           properties: {
-            service_type: {
+            serviceType: {
               type: 'string',
               enum: ['One visit a day', 'House sitting', 'Dog walking'],
               example: 'One visit a day',
             },
-            number_of_days: { type: 'integer', example: 2 },
+            numberOfDays: { type: 'integer', example: 2 },
             status: {
               type: 'string',
               enum: ['Canceled'],

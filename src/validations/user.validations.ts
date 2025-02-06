@@ -2,11 +2,11 @@ import Joi from 'joi';
 
 const register = {
   body: Joi.object({
-    first_name: Joi.string().required().messages({
+    firstName: Joi.string().required().messages({
       'string.base': 'First name must be a string',
       'any.required': 'First name is required',
     }),
-    last_name: Joi.string().required().messages({
+    lastName: Joi.string().required().messages({
       'string.base': 'Last name must be a string',
       'any.required': 'Last name is required',
     }),
@@ -36,10 +36,10 @@ const login = {
 
 const update = {
   body: Joi.object({
-    first_name: Joi.string().messages({
+    firstName: Joi.string().messages({
       'string.base': 'First name must be a string',
     }),
-    last_name: Joi.string().messages({
+    lastName: Joi.string().messages({
       'string.base': 'Last name must be a string',
     }),
     email: Joi.string().email().messages({

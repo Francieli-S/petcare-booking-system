@@ -3,11 +3,11 @@ import { ServiceType, BookingStatus } from '../entities/types.js';
 
 const createBooking = {
   body: Joi.object({
-    sitter_id: Joi.number().required().messages({
-      'number.base': 'Sitter ID must be a number',
+    sitterId: Joi.string().required().messages({
+      'string.base': 'Sitter ID must be a string',
       'any.required': 'Sitter ID is required',
     }),
-    service_type: Joi.string()
+    serviceType: Joi.string()
       .valid(...Object.values(ServiceType))
       .required()
       .messages({
@@ -17,7 +17,7 @@ const createBooking = {
         ).join(', ')}`,
         'any.required': 'Service type is required',
       }),
-    number_of_days: Joi.number().integer().positive().required().messages({
+    numberOfDays: Joi.number().integer().positive().required().messages({
       'number.base': 'Number of days must be a number',
       'number.integer': 'Number of days must be an integer',
       'number.positive': 'Number of days must be a positive number',
@@ -28,13 +28,13 @@ const createBooking = {
 
 const updateBookingByUser = {
   params: Joi.object({
-    id: Joi.number().required().messages({
-      'number.base': 'Booking ID must be a number',
+    id: Joi.string().required().messages({
+      'string.base': 'Booking ID must be a string',
       'any.required': 'Booking ID is required',
     }),
   }),
   body: Joi.object({
-    service_type: Joi.string()
+    serviceType: Joi.string()
       .valid(...Object.values(ServiceType))
       .messages({
         'string.base': 'Service type must be a string',
@@ -42,7 +42,7 @@ const updateBookingByUser = {
           ServiceType
         ).join(', ')}`,
       }),
-    number_of_days: Joi.number().integer().positive().messages({
+    numberOfDays: Joi.number().integer().positive().messages({
       'number.base': 'Number of days must be a number',
       'number.integer': 'Number of days must be an integer',
       'number.positive': 'Number of days must be a positive number',
@@ -60,8 +60,8 @@ const updateBookingByUser = {
 
 const updateBookingBySitter = {
   params: Joi.object({
-    id: Joi.number().required().messages({
-      'number.base': 'Booking ID must be a number',
+    id: Joi.string().required().messages({
+      'string.base': 'Booking ID must be a string',
       'any.required': 'Booking ID is required',
     }),
   }),
@@ -84,8 +84,8 @@ const updateBookingBySitter = {
 
 const deleteBooking = {
   params: Joi.object({
-    id: Joi.number().required().messages({
-      'number.base': 'Booking ID must be a number',
+    id: Joi.string().required().messages({
+      'string.base': 'Booking ID must be a string',
       'any.required': 'Booking ID is required',
     }),
   }),

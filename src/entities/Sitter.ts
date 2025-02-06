@@ -12,8 +12,8 @@ import { User } from './User.js';
 
 @Entity('sitters')
 export class Sitter {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @OneToOne(() => User)
   @JoinColumn({ name: 'userId' })
@@ -27,8 +27,8 @@ export class Sitter {
   rating!: number;
 
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updated_at!: Date;
+  updatedAt!: Date;
 }

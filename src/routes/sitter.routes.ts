@@ -15,7 +15,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/sitters/all:
+ * /sitters/all:
  *   get:
  *     summary: Get all sitters
  *     tags: [Sitters]
@@ -35,7 +35,7 @@ router.get('/all', sitterController.getSitters);
 
 /**
  * @swagger
- * /api/sitters/profile:
+ * /sitters/profile:
  *   get:
  *     summary: Get the authenticated sitter's profile
  *     tags: [Sitters]
@@ -51,7 +51,7 @@ router.get('/profile', auth, sitterController.getSitterProfile);
 
 /**
  * @swagger
- * /api/sitters/{id}:
+ * /sitters/{id}:
  *   get:
  *     summary: Get a sitter by ID
  *     tags: [Sitters]
@@ -60,7 +60,7 @@ router.get('/profile', auth, sitterController.getSitterProfile);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The sitter ID
  *     responses:
  *       200:
@@ -80,7 +80,7 @@ router.get('/:id', sitterController.getSitter);
 
 /**
  * @swagger
- * /api/sitters:
+ * /sitters:
  *   post:
  *     summary: Create a new sitter profile
  *     tags: [Sitters]
@@ -111,7 +111,7 @@ router.post(
 
 /**
  * @swagger
- * /api/sitters:
+ * /sitters:
  *   patch:
  *     summary: Update a sitter profile
  *     tags: [Sitters]
