@@ -15,8 +15,8 @@ import { User } from './User.js';
 
 @Entity('bookings')
 export class Booking {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Index()
   @ManyToOne(() => Sitter, { eager: true, onDelete: 'CASCADE' })
@@ -27,29 +27,32 @@ export class Booking {
   user!: User;
 
   @Column({ type: 'enum', enum: ServiceType })
-  service_type!: ServiceType;
+  serviceType!: ServiceType;
 
   @Column({ type: 'int', unsigned: true })
-  number_of_days!: number;
+  numberOfDays!: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  total_cost!: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, transformer: {
+    to: (value: number) => value,
+    from: (value: string) => Number(parseFloat(value).toFixed(2)),
+  } })
+  totalCost!: number;
 
   @Column({ type: 'enum', enum: BookingStatus, default: BookingStatus.PENDING })
   status!: BookingStatus;
 
   @CreateDateColumn()
-  created_at!: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updated_at!: Date;
+  updatedAt!: Date;
 
   @Column({ type: 'timestamp', nullable: true })
-  confirmed_at!: Date | null;
+  confirmedAt!: Date | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  canceled_at!: Date | null;
+  canceledAt!: Date | null;
 
   @DeleteDateColumn()
-  deleted_at!: Date | null;
+  deletedAt!: Date | null;
 }

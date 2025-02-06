@@ -15,7 +15,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/bookings:
+ * /bookings:
  *   get:
  *     summary: Get all bookings
  *     tags: [Bookings]
@@ -43,7 +43,7 @@ router.get('/', auth, bookingController.getBookings);
 
 /**
  * @swagger
- * /api/bookings/{id}:
+ * /bookings/{id}:
  *   get:
  *     summary: Get a single booking by ID
  *     tags: [Bookings]
@@ -54,7 +54,7 @@ router.get('/', auth, bookingController.getBookings);
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The booking ID
  *     responses:
  *       200:
@@ -76,7 +76,7 @@ router.get('/:id', auth, bookingController.getBooking);
 
 /**
  * @swagger
- * /api/bookings:
+ * /bookings:
  *   post:
  *     summary: Create a new booking
  *     tags: [Bookings]
@@ -118,7 +118,7 @@ router.post(
 
 /**
  * @swagger
- * /api/bookings/sitter/{id}:
+ * /bookings/sitter/{id}:
  *   patch:
  *     summary: Update a booking status by the sitter
  *     tags: [Bookings]
@@ -129,7 +129,7 @@ router.post(
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The booking ID
  *     requestBody:
  *       required: true
@@ -167,7 +167,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/bookings/{id}:
+ * /bookings/{id}:
  *   patch:
  *     summary: Update a booking by the user
  *     tags: [Bookings]
@@ -178,7 +178,7 @@ router.patch(
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The booking ID
  *     requestBody:
  *       required: true
@@ -216,7 +216,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/bookings/{id}:
+ * /bookings/{id}:
  *   delete:
  *     summary: Delete a booking
  *     tags: [Bookings]
@@ -227,7 +227,7 @@ router.patch(
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: The booking ID
  *     responses:
  *       200:
