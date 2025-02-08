@@ -23,7 +23,7 @@ export class Sitter {
   @Column({ type: 'text' })
   bio!: string;
 
-  @Column({ type: 'float', default: 0 })
+  @Column({ type: 'float', default: 5 })
   rating!: number;
 
   @CreateDateColumn()

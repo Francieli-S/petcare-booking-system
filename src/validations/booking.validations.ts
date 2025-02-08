@@ -48,12 +48,10 @@ const updateBookingByUser = {
       'number.positive': 'Number of days must be a positive number',
     }),
     status: Joi.string()
-      .valid(BookingStatus.CANCELED)
+      .valid(BookingStatus.PENDING, BookingStatus.CANCELED)
       .messages({
         'string.base': 'Status must be a string',
-        'any.only': `Status must be one of: ${Object.values(BookingStatus).join(
-          ', '
-        )}`,
+        'any.only': `Status must be one of: 'Pending' or 'Canceled'`,
       }),
   }),
 };
