@@ -1,11 +1,11 @@
 import request from 'supertest';
-import { faker, ne } from '@faker-js/faker';
+import { faker} from '@faker-js/faker';
 import jwt from 'jsonwebtoken';
 
-import app from '../../index.js';
-import { AppDataSource } from '../../config/database.js';
-import { User } from '../../entities/User.js';
-import { configs } from '../../config/env.js';
+import app from '../../../../dist/index.js';
+import { AppDataSource } from '../../../config/database.js';
+import { User } from '../../../entities/User.js';
+import { configs } from '../../../config/env.js';
 
 let userAcessingProfile: Partial<User>;
 let validToken: string;
@@ -37,7 +37,7 @@ beforeAll(async () => {
   if (registeredUser) {
     userAcessingProfile = {
       id: registeredUser.id,
-      name: registeredUser.name,
+      firstName: registeredUser.firstName,
       email: registeredUser.email,
       password: newUser.password,
     };
@@ -92,7 +92,7 @@ describe('User profile & auth Middleware tests', () => {
     expect(res.status).toBe(200);
     expect(res.body.user).toMatchObject({
       id: userAcessingProfile.id,
-      name: userAcessingProfile.name,
+      name: userAcessingProfile.firstName,
       email: userAcessingProfile.email
     });
   });

@@ -1,6 +1,6 @@
-import app from '../../index.js';
+import app from '../../../../dist/index.js';
 import request from 'supertest';
-import { AppDataSource } from '../../config/database.js';
+import { AppDataSource } from '../../../config/database.js';
 import { faker } from '@faker-js/faker';
 
 const randomUser = {
