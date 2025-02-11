@@ -24,5 +24,8 @@ Dockerfile
 api-requirements.md
 notes_mentoring.md
 
+# Ignore Terraform files
+terraform/
+
 
 

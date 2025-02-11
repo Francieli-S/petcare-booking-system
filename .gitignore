@@ -1,6 +1,9 @@
 dist
 node_modules
 
+terraform/.terraform
+terraform/terraform.tfstate
+
 .env
 .env.prod
 .env.test
